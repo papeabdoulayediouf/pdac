@@ -1,0 +1,872 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sénégal au PDAC 2027</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="ACTIONS Canada accompagne la délégation sénégalaise au PDAC 2027, du 7 au 10 mars 2027 à Toronto.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Concept : une carotte de forage. La page descend de la surface (Dakar) vers le gisement (Toronto) ;
+   une jauge de profondeur suit la lecture, chaque section est une passe du log de forage. */
+:root{
+  --nuit:#0a1530;      /* fond profond, bleu PDAC */
+  --nuit-2:#14224a;    /* surfaces sur fond nuit */
+  --magenta:#e6007e;   /* accent PDAC */
+  --filon:#ff5cae;     /* magenta éclairci, lisible sur nuit */
+  --sol:#f4f2f7;       /* surface claire, gris teinté lilas */
+  --papier:#ffffff;
+  --encre:#121a33;     /* texte sur clair */
+  --schiste:#5d6380;   /* texte secondaire */
+  --trait:#dcd9e6;     /* filets */
+  --brume:#aab2cf;     /* texte secondaire sur nuit */
+  --ok:#1f9d6b; --err:#c8213f;
+  --display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --texte:"Instrument Sans","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --wrap:1180px; --r:6px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{margin:0;background:var(--sol);color:var(--encre);font:17px/1.65 var(--texte);overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--nuit)}
+h1,h2,h3{font-family:var(--display);line-height:1.02;margin:0;text-wrap:balance}
+h2{font-size:clamp(2rem,4.6vw,3.6rem);font-weight:850;font-stretch:112%;letter-spacing:-.01em}
+h3{font-size:1.2rem;font-weight:750;font-stretch:105%;line-height:1.2}
+p{margin:0}
+a{color:inherit}
+img{max-width:100%;display:block}
+:focus-visible{outline:3px solid var(--magenta);outline-offset:3px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.mono{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
+.passe{display:flex;align-items:center;gap:12px;color:var(--magenta);margin-bottom:18px}
+.passe::after{content:"";height:1px;width:56px;background:currentColor;opacity:.5}
+.lead{font-size:1.15rem;color:var(--schiste);max-width:60ch}
+section{padding-block:clamp(72px,10vw,128px)}
+.dark{background:var(--nuit);color:var(--papier)}
+.dark .lead{color:var(--brume)}
+.dark .passe{color:var(--filon)}
+.num{font-variant-numeric:tabular-nums}
+
+/* Boutons */
+.btn{display:inline-flex;align-items:center;gap:.6em;padding:1em 1.6em;border-radius:999px;border:2px solid transparent;font:700 .95rem var(--texte);text-decoration:none;cursor:pointer;transition:transform .25s,background .25s,color .25s,box-shadow .25s;position:relative;overflow:hidden}
+.btn-mag{background:var(--magenta);color:var(--papier);box-shadow:0 10px 30px -10px var(--magenta)}
+.btn-mag:hover{transform:translateY(-2px);box-shadow:0 16px 36px -12px var(--magenta)}
+.btn-line{border-color:currentColor;background:transparent;color:inherit}
+.btn-line:hover{background:var(--papier);color:var(--nuit);border-color:var(--papier)}
+.btn .arr{transition:transform .25s}
+.btn:hover .arr{transform:translateX(4px)}
+.btn[disabled]{opacity:.6;cursor:wait}
+
+/* En-tête */
+header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:50;transition:background .3s,box-shadow .3s}
+header.solid{background:color-mix(in srgb,var(--nuit) 94%,transparent);backdrop-filter:blur(10px);box-shadow:0 1px 0 var(--nuit-2)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:72px;color:var(--papier)}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand b{font:850 1.05rem var(--display);font-stretch:115%;letter-spacing:.01em}
+.brand small{display:block;font:500 .66rem var(--mono);letter-spacing:.14em;color:var(--brume)}
+.hexa{width:30px;height:34px;background:var(--magenta);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);flex:none}
+.menu{display:flex;gap:28px;list-style:none;margin:0;padding:0}
+.menu a{text-decoration:none;font-weight:600;font-size:.92rem;position:relative;padding-block:6px}
+.menu a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:2px;background:var(--magenta);transition:right .3s}
+.menu a:hover::after,.menu a.on::after{right:0}
+.nav .btn{padding:.7em 1.2em}
+.burger{display:none;background:none;border:0;color:inherit;cursor:pointer;width:44px;height:44px;position:relative}
+.burger span{position:absolute;left:10px;right:10px;height:2px;background:currentColor;transition:.3s}
+.burger span:nth-child(1){top:15px}.burger span:nth-child(2){top:21px}.burger span:nth-child(3){top:27px}
+.burger[aria-expanded="true"] span:nth-child(1){top:21px;transform:rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){top:21px;transform:rotate(-45deg)}
+@media (max-width:980px){
+  .burger{display:block}.nav .btn{display:none}
+  .menu{position:absolute;top:72px;left:0;right:0;flex-direction:column;gap:0;background:var(--nuit);padding:8px max(20px,env(safe-area-inset-right,0px)) 20px max(20px,env(safe-area-inset-left,0px));clip-path:inset(0 0 100% 0);transition:clip-path .4s cubic-bezier(.7,0,.2,1)}
+  .menu.open{clip-path:inset(0 0 0 0)}
+  .menu a{display:block;padding:14px 0;border-bottom:1px solid var(--nuit-2);font:800 1.4rem var(--display);font-stretch:112%}
+}
+
+/* Jauge de profondeur */
+.jauge{position:fixed;left:max(14px,env(safe-area-inset-left,0px));top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none;mix-blend-mode:difference;color:#fff}
+.jauge .tube{width:3px;height:220px;background:rgba(255,255,255,.25);position:relative;border-radius:3px;overflow:hidden}
+.jauge .fill{position:absolute;inset:0 0 auto;height:0;background:#fff}
+.jauge .val{font:700 .68rem var(--mono);letter-spacing:.06em;writing-mode:vertical-rl;transform:rotate(180deg)}
+.barre{position:fixed;top:env(safe-area-inset-top,0px);left:0;height:3px;width:0;background:var(--magenta);z-index:70;display:none}
+@media (max-width:1300px){.jauge{display:none}.barre{display:block}}
+
+/* Hero */
+.hero{position:relative;background:var(--nuit);color:var(--papier);padding-block:150px 0;overflow:hidden;isolation:isolate}
+#strates{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 85% 30%,color-mix(in srgb,var(--magenta) 35%,transparent),transparent 55%)}
+.coord{color:var(--brume);display:flex;flex-wrap:wrap;gap:8px 20px}
+.coord b{color:var(--filon);font-weight:700}
+.hero h1{font-size:clamp(3rem,10.5vw,8.6rem);font-weight:900;font-stretch:125%;letter-spacing:-.025em;line-height:.9;margin-block:28px 30px}
+.hero h1 .l{display:block;overflow:hidden;padding-bottom:.04em}
+.hero h1 .l span{display:inline-block;animation:monte 1s cubic-bezier(.2,.7,.1,1) both}
+.hero h1 .l:nth-child(2) span{animation-delay:.12s}
+.hero h1 .l:nth-child(3) span{animation-delay:.24s}
+.hero h1 em{font-style:normal;color:var(--magenta);-webkit-text-stroke:0}
+.hero h1 .creux{color:transparent;-webkit-text-stroke:2px var(--papier)}
+@keyframes monte{from{transform:translateY(105%)}to{transform:none}}
+.hero-bas{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:end;padding-bottom:64px}
+.hero-bas>*{min-width:0}
+.hero .lead{color:var(--brume);margin-bottom:30px;animation:apparait .9s .5s both}
+.ctas{display:flex;flex-wrap:wrap;gap:14px;animation:apparait .9s .65s both}
+@keyframes apparait{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.compte{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--nuit-2);border:1px solid var(--nuit-2);border-radius:var(--r);overflow:hidden;animation:apparait .9s .8s both}
+.compte div{background:color-mix(in srgb,var(--nuit) 80%,transparent);padding:18px 10px;text-align:center}
+.compte b{display:block;font:850 clamp(1.8rem,4vw,2.8rem)/1 var(--display);font-stretch:110%;font-variant-numeric:tabular-nums}
+.compte b.tic{animation:tic .4s}
+@keyframes tic{from{color:var(--filon);transform:translateY(-4px)}to{transform:none}}
+.compte small{display:block;margin-top:8px;color:var(--brume)}
+.compte-titre{margin-bottom:10px;color:var(--brume)}
+@media (max-width:860px){.hero-bas{grid-template-columns:1fr}.hero{padding-block:120px 0}}
+
+/* Bandeau défilant façon cote boursière */
+.ticker{background:var(--magenta);color:var(--papier);overflow:hidden;white-space:nowrap;padding-block:14px;border-block:1px solid color-mix(in srgb,var(--papier) 25%,transparent)}
+.ticker .rail{display:inline-flex;animation:defile 38s linear infinite}
+.ticker:hover .rail{animation-play-state:paused}
+.ticker span{font:700 .9rem var(--mono);letter-spacing:.06em;padding-inline:26px;display:inline-flex;gap:10px;align-items:center}
+.ticker i{font-style:normal;opacity:.75}
+@keyframes defile{to{transform:translateX(-50%)}}
+
+/* Le congrès */
+.congres{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.congres>*{min-width:0}
+.congres .lead+.lead{margin-top:16px}
+.empile{position:relative;aspect-ratio:1/1;max-width:100%}
+.empile img{position:absolute;object-fit:cover;border-radius:var(--r);box-shadow:0 30px 60px -30px rgba(10,21,48,.55);transition:transform .6s cubic-bezier(.2,.7,.1,1)}
+.empile .a{inset:0 18% 26% 0;width:82%;height:74%}
+.empile .b{right:0;bottom:0;width:58%;height:52%;border:6px solid var(--sol)}
+.empile:hover .a{transform:translate(-8px,-8px)}
+.empile:hover .b{transform:translate(8px,8px)}
+.empile .badge{position:absolute;left:6%;bottom:6%;background:var(--magenta);color:var(--papier);padding:14px 18px;border-radius:var(--r);font:700 .75rem var(--mono);letter-spacing:.08em}
+.empile .badge b{display:block;font:900 1.7rem var(--display);font-stretch:118%;letter-spacing:0}
+.chiffres{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px;padding-top:28px;border-top:1px solid var(--trait)}
+.chiffres b{display:block;font:900 clamp(2rem,4vw,2.8rem)/1 var(--display);font-stretch:118%;color:var(--nuit);font-variant-numeric:tabular-nums}
+.chiffres span{font-size:.88rem;color:var(--schiste)}
+@media (max-width:860px){.congres{grid-template-columns:1fr}.empile{max-width:520px}}
+
+/* Avantages */
+.avantages{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--nuit-2);margin-top:48px;border:1px solid var(--nuit-2)}
+.av{background:var(--nuit);padding:36px 30px 40px;position:relative;overflow:hidden;transition:background .35s}
+.av::before{content:"";position:absolute;inset:auto 0 0;height:0;background:var(--magenta);transition:height .45s cubic-bezier(.7,0,.2,1);z-index:0}
+.av:hover::before{height:100%}
+.av>*{position:relative;z-index:1}
+.av .ico{width:44px;height:44px;color:var(--filon);margin-bottom:26px;transition:color .3s}
+.av:hover .ico{color:var(--papier)}
+.av h3{font-size:1.45rem;margin-bottom:12px}
+.av p{color:var(--brume);transition:color .3s}
+.av:hover p{color:var(--papier)}
+@media (max-width:860px){.avantages{grid-template-columns:1fr}}
+
+/* Profils */
+.profils{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+.profil{background:var(--papier);border-radius:var(--r);padding:30px;border:1px solid var(--trait);transition:transform .35s,box-shadow .35s,border-color .35s}
+.profil:hover{transform:translateY(-6px);box-shadow:0 24px 50px -28px rgba(10,21,48,.4);border-color:var(--magenta)}
+.profil .tag{color:var(--magenta);margin-bottom:14px}
+.profil h3{margin-bottom:16px;font-size:1.35rem}
+.profil ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.profil li{padding-left:20px;position:relative;color:var(--schiste);font-size:.96rem}
+.profil li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:9px;background:var(--magenta);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+@media (max-width:900px){.profils{grid-template-columns:1fr}}
+
+/* Forfait : la carotte */
+.forfait{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:start;margin-top:48px}
+.forfait>*{min-width:0}
+.prix{font:900 clamp(4rem,11vw,7.5rem)/.9 var(--display);font-stretch:125%;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.prix small{font:700 1rem var(--mono);letter-spacing:.1em;color:var(--filon);margin-left:8px}
+.prix-sous{color:var(--brume);margin-block:10px 30px}
+.option{display:flex;gap:16px;align-items:center;padding:18px 20px;border:1px solid var(--nuit-2);border-radius:var(--r);cursor:pointer;transition:border-color .3s,background .3s}
+.option:has(input:checked){border-color:var(--filon);background:var(--nuit-2)}
+.switch{appearance:none;width:48px;height:28px;border-radius:999px;background:var(--nuit-2);border:1px solid var(--brume);position:relative;cursor:pointer;flex:none;transition:background .3s;margin:0}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--papier);transition:transform .3s}
+.switch:checked{background:var(--magenta);border-color:var(--magenta)}
+.switch:checked::after{transform:translateX(20px)}
+.option b{display:block}
+.option span{color:var(--brume);font-size:.9rem}
+.exclus{margin-top:22px;color:var(--brume);font-size:.92rem;display:grid;gap:6px}
+.carotte-titre{display:flex;justify-content:space-between;color:var(--brume);margin-bottom:12px}
+.carotte{display:flex;flex-direction:column;gap:4px;border-radius:30px;padding:6px;background:var(--nuit-2)}
+.seg{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:0 22px;border-radius:24px;color:var(--papier);min-height:64px;transition:flex-grow .6s cubic-bezier(.2,.7,.1,1),min-height .6s,opacity .4s,padding .6s;overflow:hidden;position:relative}
+.seg::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,transparent 0 14px,rgba(255,255,255,.05) 14px 16px);pointer-events:none}
+.seg b{font-weight:600}
+.seg span{font:700 .9rem var(--mono);white-space:nowrap}
+.seg[data-v="1500"]{min-height:96px}
+.seg[data-v="500"]{min-height:44px}
+.seg[data-v="1000"]{min-height:66px}
+.s1{background:#e6007e}.s2{background:#b8006a}.s3{background:#7d1b6e}.s4{background:#4a2a7a}
+.s5{background:repeating-linear-gradient(45deg,var(--nuit-2) 0 10px,#22325f 10px 20px);border:1px dashed var(--filon)}
+.seg.off{min-height:0!important;padding-block:0;opacity:0;margin-top:-4px}
+.carotte-pied{display:flex;justify-content:space-between;margin-top:14px;color:var(--brume)}
+.carotte-pied b{color:var(--papier);font-family:var(--mono)}
+@media (max-width:860px){.forfait{grid-template-columns:1fr}}
+
+/* Processus */
+.etapes{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:56px;position:relative;counter-reset:e}
+.etapes::before{content:"";position:absolute;top:27px;left:0;right:0;height:2px;background:var(--trait)}
+.etapes::after{content:"";position:absolute;top:27px;left:0;height:2px;width:var(--progres,0%);background:var(--magenta);transition:width 1.4s cubic-bezier(.2,.7,.1,1)}
+.etape{position:relative;z-index:1}
+.etape .n{width:56px;height:56px;display:grid;place-items:center;background:var(--sol);border:2px solid var(--magenta);color:var(--magenta);font:900 1.2rem var(--display);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);margin-bottom:22px;transition:background .3s,color .3s}
+.etape:hover .n{background:var(--magenta);color:var(--papier)}
+.etape h3{margin-bottom:10px}
+.etape p{color:var(--schiste);font-size:.95rem}
+@media (max-width:860px){
+  .etapes{grid-template-columns:1fr;gap:30px;padding-left:76px}
+  .etapes::before,.etapes::after{top:0;bottom:0;left:27px;right:auto;width:2px;height:auto}
+  .etapes::after{height:var(--progres,0%);bottom:auto}
+  .etape .n{position:absolute;left:-76px;top:0}
+}
+
+/* Calendrier : log de forage */
+.log{display:grid;grid-template-columns:1fr 1.2fr;gap:56px;margin-top:20px}
+.log>*{min-width:0}
+.forage{position:relative;padding-left:96px}
+.forage .axe{position:absolute;left:58px;top:8px;bottom:8px;width:16px;border-radius:8px;background:var(--nuit-2);overflow:hidden}
+.forage .axe i{position:absolute;inset:0 0 auto;background:linear-gradient(var(--filon),var(--magenta));height:var(--auj,0%);transition:height 1.6s cubic-bezier(.2,.7,.1,1)}
+.jalon{position:relative;padding-bottom:42px}
+.jalon:last-child{padding-bottom:0}
+.jalon .prof{display:block;color:var(--filon);font-size:.68rem;margin-bottom:4px}
+.jalon::before{content:"";position:absolute;left:-45px;top:24px;width:22px;height:22px;border-radius:50%;background:var(--nuit);border:4px solid var(--filon)}
+.jalon.final::before{background:var(--magenta);border-color:var(--magenta);box-shadow:0 0 0 8px color-mix(in srgb,var(--magenta) 30%,transparent);animation:pulse 2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 14px transparent}}
+.jalon time{display:block;font:850 1.5rem var(--display);font-stretch:112%}
+.jalon p{color:var(--brume);margin-top:6px;max-width:48ch}
+.jalon .reste{display:inline-block;margin-top:10px;padding:4px 10px;border-radius:999px;background:var(--nuit-2);color:var(--filon)}
+.auj{position:absolute;left:0;width:56px;text-align:right;color:var(--papier);font:700 .66rem var(--mono);letter-spacing:.08em;transform:translateY(-50%);top:var(--auj-top,0)}
+.auj::after{content:"";position:absolute;right:-26px;top:50%;width:20px;height:2px;background:var(--papier)}
+@media (max-width:860px){.log{grid-template-columns:1fr}}
+
+/* Documents */
+.onglets{display:inline-flex;gap:4px;padding:5px;background:var(--papier);border:1px solid var(--trait);border-radius:999px;margin-block:36px 22px;position:relative;flex-wrap:wrap}
+.onglets button{border:0;background:transparent;padding:.75em 1.3em;border-radius:999px;font:700 .92rem var(--texte);color:var(--schiste);cursor:pointer;transition:color .3s,background .3s}
+.onglets button[aria-selected="true"]{background:var(--nuit);color:var(--papier)}
+.docs{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;list-style:none;margin:0;padding:0}
+.docs li{background:var(--papier);border:1px solid var(--trait);border-radius:var(--r);padding:18px 20px;display:flex;gap:14px;align-items:flex-start;animation:apparait .5s both}
+.docs li:nth-child(2){animation-delay:.06s}.docs li:nth-child(3){animation-delay:.12s}.docs li:nth-child(4){animation-delay:.18s}
+.docs .k{font:700 .72rem var(--mono);color:var(--magenta);padding-top:3px}
+.note{margin-top:18px;color:var(--schiste);font-size:.92rem}
+@media (max-width:700px){.docs{grid-template-columns:1fr}}
+
+/* Galerie */
+.galerie{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:16px;margin-top:40px;scrollbar-width:thin;scrollbar-color:var(--magenta) var(--nuit-2);cursor:grab}
+.galerie.drag{cursor:grabbing;scroll-snap-type:none}
+.galerie figure{margin:0;flex:0 0 clamp(240px,30vw,380px);scroll-snap-align:start;position:relative;overflow:hidden;border-radius:var(--r)}
+.galerie img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .6s;user-select:none;-webkit-user-drag:none}
+.galerie figure:hover img{transform:scale(1.06)}
+.galerie figcaption{position:absolute;inset:auto 0 0;padding:28px 16px 14px;background:linear-gradient(transparent,rgba(10,21,48,.9));color:var(--papier);font-size:.85rem;font-weight:600}
+.galerie button{all:unset;display:block;cursor:zoom-in}
+.galerie-nav{display:flex;gap:10px}
+.galerie-nav button{width:48px;height:48px;border-radius:50%;border:1px solid var(--brume);background:transparent;color:var(--papier);font-size:1.2rem;cursor:pointer;transition:background .3s,border-color .3s}
+.galerie-nav button:hover{background:var(--magenta);border-color:var(--magenta)}
+.tete{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap}
+dialog{border:0;padding:0;background:transparent;max-width:min(92vw,900px)}
+dialog::backdrop{background:rgba(10,21,48,.88);backdrop-filter:blur(4px)}
+dialog img{border-radius:var(--r);width:100%;max-height:80vh;object-fit:contain;background:var(--nuit)}
+dialog p{color:var(--papier);text-align:center;margin-top:12px}
+dialog button{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:50%;border:0;background:var(--papier);color:var(--nuit);font-size:1.2rem;cursor:pointer}
+
+/* FAQ */
+.faq{max-width:860px}
+.faq details{border-bottom:1px solid var(--trait)}
+.faq summary{list-style:none;cursor:pointer;padding:24px 56px 24px 0;font:750 1.2rem var(--display);font-stretch:105%;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";position:absolute;right:8px;top:50%;width:18px;height:18px;margin-top:-9px;background:linear-gradient(var(--magenta),var(--magenta)) center/100% 2px no-repeat,linear-gradient(var(--magenta),var(--magenta)) center/2px 100% no-repeat;transition:transform .35s}
+.faq details[open] summary::after{transform:rotate(135deg)}
+.faq .rep{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s}
+.faq details[open] .rep{grid-template-rows:1fr}
+.faq .rep>div{overflow:hidden}
+.faq .rep p{color:var(--schiste);padding-bottom:24px;max-width:65ch}
+
+/* Formulaire : assistant en 5 passes */
+.inscr{display:grid;grid-template-columns:.8fr 1.4fr;gap:56px;align-items:start}
+.inscr>*{min-width:0}
+.inscr aside{position:sticky;top:100px}
+.passes{list-style:none;margin:30px 0 0;padding:0;display:grid;gap:4px}
+.passes li{display:flex;gap:14px;align-items:center;padding:10px 0;color:var(--brume);transition:color .3s}
+.passes li i{width:30px;height:30px;display:grid;place-items:center;border:1.5px solid currentColor;font:700 .75rem var(--mono);font-style:normal;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);transition:background .3s,color .3s}
+.passes li.on{color:var(--papier)}
+.passes li.on i{background:var(--magenta);border-color:var(--magenta);color:var(--papier)}
+.passes li.fait{color:var(--filon)}
+.passes li.fait i{background:var(--filon);color:var(--nuit);border-color:var(--filon)}
+.carte{background:var(--papier);color:var(--encre);border-radius:var(--r);padding:clamp(22px,4vw,40px);box-shadow:0 40px 80px -40px rgba(0,0,0,.6)}
+.avance{height:4px;background:var(--trait);border-radius:4px;overflow:hidden;margin-bottom:28px}
+.avance i{display:block;height:100%;width:20%;background:var(--magenta);transition:width .5s cubic-bezier(.2,.7,.1,1)}
+.form fieldset{border:0;padding:0;margin:0;animation:glisse .45s cubic-bezier(.2,.7,.1,1)}
+@keyframes glisse{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+.form legend{font:850 1.6rem var(--display);font-stretch:110%;padding:0;margin-bottom:22px}
+.champs{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.champs .plein{grid-column:1/-1}
+@media (max-width:600px){.champs{grid-template-columns:1fr}}
+.form label{display:block;font-weight:600;font-size:.9rem}
+.form label>input:not([type=radio]):not([type=checkbox]),.form label>small{display:block;margin-top:7px}
+.form input:not([type=radio]):not([type=checkbox]){width:100%;font:inherit;font-weight:400;padding:.8em .95em;border:1.5px solid var(--trait);border-radius:var(--r);background:var(--sol);color:var(--encre);transition:border-color .25s,background .25s,box-shadow .25s}
+.form input[type=file]{padding:.6em}
+.form input:focus{outline:none;border-color:var(--magenta);background:var(--papier);box-shadow:0 0 0 4px color-mix(in srgb,var(--magenta) 15%,transparent)}
+.form input[readonly]{color:var(--schiste)}
+.form small,.aide{font-weight:400;color:var(--schiste);font-size:.84rem}
+.req{color:var(--magenta)}
+.choix{display:flex!important;gap:14px;align-items:flex-start;padding:18px;border:1.5px solid var(--trait);border-radius:var(--r);cursor:pointer;margin-bottom:12px;font-weight:400!important;transition:border-color .25s,background .25s}
+.choix:hover{border-color:var(--schiste)}
+.choix:has(input:checked){border-color:var(--magenta);background:color-mix(in srgb,var(--magenta) 6%,var(--papier))}
+.choix input{accent-color:var(--magenta);width:20px;height:20px;margin:2px 0 0;flex:none}
+.choix b{display:block;font-size:1rem}
+.choix small{display:block}
+.invalid{border-color:var(--err)!important;animation:secoue .35s}
+@keyframes secoue{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.erreur{color:var(--err);font-weight:600;margin-top:18px}
+.actions{display:flex;justify-content:space-between;gap:12px;margin-top:30px;flex-wrap:wrap}
+.btn-gris{background:var(--sol);color:var(--encre)}
+.btn-gris:hover{background:var(--trait)}
+.total-ligne{display:flex;justify-content:space-between;align-items:baseline;padding:16px 0;border-top:2px solid var(--nuit);margin-top:10px}
+.total-ligne b{font:900 1.8rem var(--display);font-stretch:115%;font-variant-numeric:tabular-nums}
+.ligne{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--trait)}
+.recap{width:100%;border-collapse:collapse;font-size:.93rem;margin-top:18px}
+.recap td{padding:9px 0;border-bottom:1px solid var(--trait);vertical-align:top}
+.recap td:first-child{color:var(--schiste);width:44%;padding-right:12px}
+.ok-ico{width:56px;height:56px;border-radius:50%;background:var(--ok);color:var(--papier);display:grid;place-items:center;font-size:1.6rem;margin-bottom:18px;animation:pop .5s cubic-bezier(.2,1.6,.4,1)}
+@keyframes pop{from{transform:scale(0)}}
+@media (max-width:900px){.inscr{grid-template-columns:1fr}.inscr aside{position:static}.passes{grid-template-columns:repeat(5,1fr)}.passes li span{display:none}}
+
+/* Pied */
+footer{background:var(--nuit);color:var(--brume);padding-block:56px;border-top:1px solid var(--nuit-2);font-size:.9rem}
+footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+footer a{color:var(--papier)}
+
+/* Apparition au défilement : seulement pour ce qui est sous la ligne de flottaison au chargement */
+.attend{opacity:0;transform:translateY(28px)}
+.vu{opacity:1;transform:none;transition:opacity .8s cubic-bezier(.2,.7,.1,1),transform .8s cubic-bezier(.2,.7,.1,1)}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .attend{opacity:1;transform:none}
+  .ticker .rail{animation:none}
+}
+</style>
+</head>
+<body>
+
+<div class="barre" id="barre"></div>
+<div class="jauge" aria-hidden="true"><span class="val mono" id="prof">0 m</span><div class="tube"><div class="fill" id="jauge"></div></div><span class="val mono">Toronto</span></div>
+
+<header id="entete">
+  <nav class="wrap nav" aria-label="Navigation principale">
+    <a class="brand" href="#haut"><span class="hexa" aria-hidden="true"></span><span><b>ACTIONS Canada</b><small>DÉLÉGATION PDAC 2027</small></span></a>
+    <ul class="menu" id="menu">
+      <li><a href="#congres">Le PDAC</a></li>
+      <li><a href="#profils">Participants</a></li>
+      <li><a href="#forfait">Forfait</a></li>
+      <li><a href="#processus">Processus</a></li>
+      <li><a href="#calendrier">Calendrier</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a class="btn btn-mag" href="#inscription">S'inscrire</a>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<main id="haut">
+<section class="hero">
+  <canvas id="strates" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="coord mono"><span><b>43.64° N · 79.39° O</b></span><span>Metro Toronto Convention Centre</span><span>Délégation sénégalaise</span></div>
+    <h1><span class="l"><span>Le Sénégal</span></span><span class="l"><span class="creux">au cœur du</span></span><span class="l"><span><em>PDAC</em> 2027</span></span></h1>
+    <div class="hero-bas">
+      <div>
+        <p class="lead">Le plus grand congrès mondial de l'exploration et de l'investissement miniers, du 7 au 10 mars 2027 à Toronto. ACTIONS Canada organise votre participation : inscription, hôtel, transport et visa, en un seul forfait.</p>
+        <div class="ctas">
+          <a class="btn btn-mag" href="#inscription">Rejoindre la délégation <span class="arr">→</span></a>
+          <a class="btn btn-line" href="#forfait">Forfait 5 000 USD</a>
+        </div>
+      </div>
+      <div>
+        <p class="compte-titre mono">Ouverture du congrès dans</p>
+        <div class="compte" role="timer" aria-label="Compte à rebours jusqu'au 7 mars 2027">
+          <div><b id="cj">—</b><small class="mono">jours</small></div>
+          <div><b id="ch">—</b><small class="mono">heures</small></div>
+          <div><b id="cm">—</b><small class="mono">min</small></div>
+          <div><b id="cs">—</b><small class="mono">sec</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ticker" aria-label="Dates clés">
+    <div class="rail" id="rail">
+      <span>INSCRIPTIONS <i>▲</i> 30.11.2026</span><span>ACOMPTE 50 % <i>▲</i> 05.12.2026</span><span>SOLDE 50 % <i>▲</i> 30.01.2027</span><span>PDAC <i>▲</i> 07–10.03.2027</span><span>FORFAIT <i>▲</i> 5 000 USD</span><span>TORONTO <i>▲</i> MTCC</span>
+    </div>
+  </div>
+</section>
+
+<section id="congres">
+  <div class="wrap congres">
+    <div>
+      <p class="passe mono">Le congrès</p>
+      <h2>Là où se signent les accords miniers du monde</h2>
+      <p class="lead" style="margin-top:24px">Le PDAC (Prospectors &amp; Developers Association of Canada) réunit chaque année à Toronto investisseurs, décideurs publics, compagnies minières et experts.</p>
+      <p class="lead">Conférences, salon d'exposition, rencontres B2B et B2G, réceptions : c'est la vitrine idéale pour présenter le potentiel minier du Sénégal et nouer des partenariats.</p>
+      <div class="chiffres">
+        <div><b class="num" data-compte="4">4</b><span>jours de congrès</span></div>
+        <div><b class="num" data-compte="25000" data-suffixe="+">25 000+</b><span>participants attendus</span></div>
+        <div><b class="num" data-compte="100" data-suffixe="+">100+</b><span>pays représentés</span></div>
+      </div>
+    </div>
+    <div class="empile">
+      <img class="a" src="img/stand.jpg" alt="Échanges autour d'échantillons de carottes sur un stand du PDAC">
+      <img class="b" src="img/entree-pdac.jpg" alt="Participants à l'entrée du PDAC">
+      <div class="badge">7 – 10 MARS<b>2027</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="dark">
+  <div class="wrap">
+    <p class="passe mono">Pourquoi ACTIONS Canada</p>
+    <h2>Une délégation structurée, crédible, tournée vers les résultats</h2>
+    <div class="avantages">
+      <div class="av">
+        <svg class="ico" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="5" width="26" height="34" rx="3"/><circle cx="22" cy="18" r="6"/><path d="M14 31h16"/></svg>
+        <h3>Crédibilité consulaire</h3>
+        <p>Dossiers vérifiés et cohorte structurée, encadrés par notre avocate canadienne spécialisée en immigration.</p>
+      </div>
+      <div class="av">
+        <svg class="ico" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="2"><circle cx="14" cy="16" r="6"/><circle cx="30" cy="16" r="6"/><path d="M4 36c1-6 5-9 10-9s9 3 10 9M20 36c1-6 5-9 10-9s9 3 10 9"/></svg>
+        <h3>Réseautage B2B &amp; B2G</h3>
+        <p>Accès facilité aux événements VIP, panels et sessions de réseautage exclusifs à Toronto.</p>
+      </div>
+      <div class="av">
+        <svg class="ico" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 4l16 9v18l-16 9-16-9V13z"/><path d="M22 4v36M6 13l32 18M38 13L6 31"/></svg>
+        <h3>Visibilité</h3>
+        <p>Présence au sein du pavillon ou du catalogue de la délégation gérée par ACTIONS Canada.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="profils">
+  <div class="wrap">
+    <p class="passe mono">Participants éligibles</p>
+    <h2>Qui peut rejoindre la délégation ?</h2>
+    <div class="profils">
+      <article class="profil"><p class="tag mono">Catégorie A</p><h3>Institutions</h3><ul><li>Ministère des Mines et démembrements</li><li>Chambres de commerce, d'agriculture et d'artisanat</li><li>Chambre des mines</li></ul></article>
+      <article class="profil"><p class="tag mono">Catégorie B</p><h3>Compagnies</h3><ul><li>Sociétés minières : exploration, exploitation</li><li>Sous-traitants et fournisseurs de services</li><li>Cabinets de conseil juridique, financier, géologique</li><li>Structures étatiques sectorielles</li></ul></article>
+      <article class="profil"><p class="tag mono">Catégorie C</p><h3>Experts &amp; investisseurs</h3><ul><li>Géologues, ingénieurs des mines, consultants</li><li>Investisseurs privés et apporteurs d'affaires</li><li>Chercheurs et universitaires du secteur extractif</li></ul></article>
+    </div>
+  </div>
+</section>
+
+<section id="forfait" class="dark">
+  <div class="wrap">
+    <p class="passe mono">Forfait unique</p>
+    <h2>Tout le séjour, en une seule carotte</h2>
+    <div class="forfait">
+      <div>
+        <div class="prix" aria-live="polite"><span id="prix" class="num">5 000</span><small>USD</small></div>
+        <p class="prix-sous">par participant, payable en deux versements</p>
+        <label class="option" for="opt-forfait">
+          <input class="switch" type="checkbox" id="opt-forfait">
+          <span><b>Ajouter les services d'accueil · +1 000 USD</b><span>Traduction de documents, prise de rendez-vous, etc.</span></span>
+        </label>
+        <div class="exclus">
+          <span>Non inclus : billet Dakar – Toronto aller-retour, frais consulaires de l'ambassade du Canada.</span>
+          <span>ACTIONS Canada ne délivre pas de visa : nous encadrons votre démarche.</span>
+        </div>
+      </div>
+      <div>
+        <div class="carotte-titre mono"><span>Composition du forfait</span><span>USD</span></div>
+        <div class="carotte" id="carotte">
+          <div class="seg s1" data-v="1500"><b>Inscription officielle au PDAC</b><span>1 500</span></div>
+          <div class="seg s2" data-v="1500"><b>Hôtel 2-3 étoiles · 4 nuits</b><span>1 500</span></div>
+          <div class="seg s3" data-v="500"><b>Navettes aéroport – hôtel</b><span>500</span></div>
+          <div class="seg s4" data-v="1500"><b>Avocate en immigration · visa</b><span>1 500</span></div>
+          <div class="seg s5 off" data-v="1000" id="seg-opt"><b>Services d'accueil (option)</b><span>1 000</span></div>
+        </div>
+        <div class="carotte-pied mono"><span>Acompte 05.12.2026 · Solde 30.01.2027</span><b id="moitie">2 × 2 500</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="processus">
+  <div class="wrap">
+    <p class="passe mono">Le parcours</p>
+    <h2>Quatre étapes, de Dakar à Toronto</h2>
+    <div class="etapes" id="etapes">
+      <div class="etape"><div class="n">1</div><h3>Inscription</h3><p>Vous remplissez la fiche en ligne et soumettez votre dossier numérique.</p></div>
+      <div class="etape"><div class="n">2</div><h3>Analyse &amp; entretien</h3><p>Le comité vérifie vos documents puis vous rencontre, en personne ou en visio.</p></div>
+      <div class="etape"><div class="n">3</div><h3>Confirmation</h3><p>Lettre de confirmation d'encadrement, facture, versement de l'acompte de 50 %.</p></div>
+      <div class="etape"><div class="n">4</div><h3>Visa &amp; préparation</h3><p>Lettre d'invitation du PDAC, dossier visa, puis briefing pitchs et réseautage.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="calendrier" class="dark">
+  <div class="wrap log">
+    <div>
+      <p class="passe mono">Log de forage</p>
+      <h2>Le calendrier, mètre par mètre</h2>
+      <p class="lead" style="margin-top:24px">Les délais de traitement des visas canadiens imposent un calendrier strict. La colonne magenta montre où nous en sommes aujourd'hui.</p>
+    </div>
+    <div class="forage" id="forage">
+      <div class="axe"><i></i></div>
+      <span class="auj mono" id="auj">AUJ.</span>
+      <div class="jalon" data-date="2026-11-30"><span class="prof mono">−030 m</span><time datetime="2026-11-30">30 novembre 2026</time><p>Clôture des inscriptions. Aucun dossier accepté après cette date.</p><span class="reste mono"></span></div>
+      <div class="jalon" data-date="2026-12-05"><span class="prof mono">−035 m</span><time datetime="2026-12-05">5 décembre 2026</time><p>Acompte de 50 % (2 500 USD) : inscription au PDAC, lettres d'invitation, blocage des chambres.</p><span class="reste mono"></span></div>
+      <div class="jalon" data-date="2027-01-30"><span class="prof mono">−091 m</span><time datetime="2027-01-30">30 janvier 2027</time><p>Solde de 50 % (2 500 USD), dès l'obtention du visa et au plus tard à cette date.</p><span class="reste mono"></span></div>
+      <div class="jalon final" data-date="2027-03-07"><span class="prof mono">−127 m</span><time datetime="2027-03-07">7 – 10 mars 2027</time><p>PDAC 2027 au Metro Toronto Convention Centre.</p><span class="reste mono"></span></div>
+    </div>
+  </div>
+</section>
+
+<section id="documents">
+  <div class="wrap">
+    <p class="passe mono">Votre dossier</p>
+    <h2>Documents requis</h2>
+    <div class="onglets" role="tablist" aria-label="Type de candidat">
+      <button role="tab" id="tab-a" aria-selected="true" aria-controls="docs-a">Compagnies &amp; institutions</button>
+      <button role="tab" id="tab-b" aria-selected="false" aria-controls="docs-b" tabindex="-1">Experts &amp; investisseurs</button>
+    </div>
+    <ul class="docs" role="tabpanel" id="docs-a" aria-labelledby="tab-a">
+      <li><span class="k">01</span>Registre du commerce (RCCM) et NINEA / identification nationale valides</li>
+      <li><span class="k">02</span>Preuve d'activités dans le secteur minier ou connexe</li>
+      <li><span class="k">03</span>Lettre de désignation officielle des délégués, signée par la direction</li>
+      <li><span class="k">04</span>États financiers succincts et attestation bancaire de capacité financière</li>
+    </ul>
+    <ul class="docs" role="tabpanel" id="docs-b" aria-labelledby="tab-b" hidden>
+      <li><span class="k">01</span>Curriculum vitae à jour, axé sur l'expertise minière ou financière</li>
+      <li><span class="k">02</span>Passeport (page d'identité), valide au moins jusqu'au 10 septembre 2027</li>
+      <li><span class="k">03</span>Lettre de motivation précisant vos objectifs au PDAC 2027</li>
+      <li><span class="k">04</span>Preuve de capacité financière (attestation bancaire)</li>
+    </ul>
+    <p class="note">Pour l'accompagnement visa, des documents supplémentaires seront demandés : situation familiale, antécédents de voyages et de résidence.</p>
+  </div>
+</section>
+
+<section class="dark">
+  <div class="wrap">
+    <div class="tete">
+      <div><p class="passe mono">En images</p><h2>L'expérience PDAC</h2></div>
+      <div class="galerie-nav"><button id="g-prev" aria-label="Photos précédentes">←</button><button id="g-next" aria-label="Photos suivantes">→</button></div>
+    </div>
+    <div class="galerie" id="galerie">
+      <figure><button><img src="img/salle-exposition.jpg" alt="Salle d'exposition du PDAC"></button><figcaption>Le salon d'exposition</figcaption></figure>
+      <figure><button><img src="img/delegation.jpg" alt="Photo de groupe d'une délégation"></button><figcaption>Une délégation au complet</figcaption></figure>
+      <figure><button><img src="img/panel.jpg" alt="Panel de décideurs"></button><figcaption>Panels et sessions B2G</figcaption></figure>
+      <figure><button><img src="img/reception.jpg" alt="Réception de réseautage"></button><figcaption>Réceptions de réseautage</figcaption></figure>
+      <figure><button><img src="img/mtcc.jpg" alt="Metro Toronto Convention Centre"></button><figcaption>Metro Toronto Convention Centre</figcaption></figure>
+      <figure><button><img src="img/gala.jpg" alt="Salle de gala"></button><figcaption>Dîners de gala</figcaption></figure>
+      <figure><button><img src="img/toronto.jpg" alt="Toronto et la tour CN"></button><figcaption>Toronto</figcaption></figure>
+      <figure><button><img src="img/grande-salle.jpg" alt="Grande salle de conférence"></button><figcaption>Conférences plénières</figcaption></figure>
+    </div>
+  </div>
+</section>
+<dialog id="visionneuse"><button id="fermer" aria-label="Fermer">✕</button><img id="v-img" alt=""><p id="v-txt"></p></dialog>
+
+<section id="faq">
+  <div class="wrap faq">
+    <p class="passe mono">Questions fréquentes</p>
+    <h2 style="margin-bottom:24px">FAQ</h2>
+    <details><summary>Le billet d'avion est-il inclus ?</summary><div class="rep"><div><p>Non. Le billet Dakar – Toronto aller-retour et les frais consulaires officiels de l'ambassade du Canada restent à la charge du participant ou de son organisation.</p></div></div></details>
+    <details><summary>ACTIONS Canada délivre-t-il le visa ?</summary><div class="rep"><div><p>Non. Le visa est délivré par les autorités canadiennes. Nous encadrons votre démarche avec notre avocate en immigration et fournissons la lettre d'invitation officielle du PDAC.</p></div></div></details>
+    <details><summary>Que se passe-t-il en cas de refus de visa ?</summary><div class="rep"><div><p>Sur présentation de la lettre de refus officielle, vous choisissez le report au PDAC 2028 sans frais supplémentaires, ou le remboursement des sommes versées, déduction faite des frais engagés et non récupérables (inscription au PDAC, honoraires de l'avocate, frais d'annulation hôtelière le cas échéant).</p></div></div></details>
+    <details><summary>Comment s'effectue le paiement ?</summary><div class="rep"><div><p>En deux versements de 2 500 USD : l'acompte au plus tard le 5 décembre 2026, le solde dès l'obtention du visa et au plus tard le 30 janvier 2027.</p></div></div></details>
+    <details><summary>Quelle validité pour mon passeport ?</summary><div class="rep"><div><p>Au moins 6 mois après le PDAC 2027, soit jusqu'au 10 septembre 2027 au minimum.</p></div></div></details>
+  </div>
+</section>
+
+<section id="inscription" class="dark">
+  <div class="wrap inscr">
+    <aside>
+      <p class="passe mono">Fiche d'inscription</p>
+      <h2>Rejoignez la délégation</h2>
+      <p class="lead" style="margin-top:20px">Cinq étapes, environ 5 minutes. Clôture le 30 novembre 2026. <a href="formulaire-inscription-pdac2027.docx" download style="color:var(--filon)">Version Word</a></p>
+      <ol class="passes" id="passes">
+        <li class="on"><i>1</i><span>Catégorie</span></li>
+        <li><i>2</i><span>Identité et contact</span></li>
+        <li><i>3</i><span>Documents</span></li>
+        <li><i>4</i><span>Forfait</span></li>
+        <li><i>5</i><span>Engagement</span></li>
+      </ol>
+    </aside>
+
+    <div class="carte">
+      <div class="avance" aria-hidden="true"><i id="avance"></i></div>
+      <form id="form" class="form" novalidate>
+        <fieldset data-pas="1">
+          <legend>Votre catégorie</legend>
+          <label class="choix" for="cat-a"><input type="radio" id="cat-a" name="categorie" value="Compagnie / Institution / Personne morale" required><span><b>Compagnie, institution ou personne morale</b><small>Société minière, sous-traitant, cabinet de conseil, institution publique</small></span></label>
+          <label class="choix" for="cat-b"><input type="radio" id="cat-b" name="categorie" value="Expert / Investisseur / Personne physique"><span><b>Expert, investisseur ou personne physique</b><small>Géologue, consultant, chercheur, investisseur privé</small></span></label>
+        </fieldset>
+
+        <fieldset data-pas="2" hidden>
+          <legend>Identité et contact</legend>
+          <div class="champs">
+            <label class="plein" for="f-org">Organisation / entreprise<input id="f-org" name="organisation" autocomplete="organization"></label>
+            <label for="f-nom">Nom <span class="req">*</span><input id="f-nom" name="nom" required autocomplete="family-name"></label>
+            <label for="f-pre">Prénom(s) <span class="req">*</span><input id="f-pre" name="prenoms" required autocomplete="given-name"></label>
+            <label class="plein" for="f-fct">Fonction / titre <span class="req">*</span><input id="f-fct" name="fonction" required autocomplete="organization-title"></label>
+            <label for="f-pass">N° de passeport <span class="req">*</span><input id="f-pass" name="passeport" required></label>
+            <label for="f-exp">Expiration du passeport <span class="req">*</span><input id="f-exp" type="date" name="expiration_passeport" required min="2027-09-10"><small>Au moins jusqu'au 10/09/2027.</small></label>
+            <label for="f-mail">Email professionnel <span class="req">*</span><input id="f-mail" type="email" name="email" required autocomplete="email"></label>
+            <label for="f-tel">Téléphone <span class="req">*</span><input id="f-tel" type="tel" name="telephone" required placeholder="+221 …" autocomplete="tel"></label>
+            <label for="f-wa">WhatsApp<input id="f-wa" type="tel" name="whatsapp" placeholder="+221 …"></label>
+            <label for="f-adr">Adresse <span class="req">*</span><input id="f-adr" name="adresse" required autocomplete="street-address"></label>
+          </div>
+        </fieldset>
+
+        <fieldset data-pas="3" hidden>
+          <legend>Documents à joindre</legend>
+          <div class="champs" data-cat="Compagnie / Institution / Personne morale">
+            <label class="plein" for="d-rccm">RCCM &amp; NINEA<input id="d-rccm" type="file" name="doc_rccm_ninea" accept=".pdf,.jpg,.jpeg,.png"></label>
+            <label class="plein" for="d-act">Preuve d'activités minières ou connexes<input id="d-act" type="file" name="doc_preuve_activites" accept=".pdf,.jpg,.jpeg,.png"></label>
+            <label class="plein" for="d-des">Lettre de désignation des délégués<input id="d-des" type="file" name="doc_lettre_designation" accept=".pdf,.jpg,.jpeg,.png"></label>
+            <label class="plein" for="d-fin">États financiers et attestation bancaire<input id="d-fin" type="file" name="doc_etats_financiers" accept=".pdf,.jpg,.jpeg,.png"></label>
+          </div>
+          <div class="champs" data-cat="Expert / Investisseur / Personne physique">
+            <label class="plein" for="d-cv">Curriculum vitae<input id="d-cv" type="file" name="doc_cv" accept=".pdf,.doc,.docx"></label>
+            <label class="plein" for="d-pp">Passeport (page d'identité)<input id="d-pp" type="file" name="doc_passeport" accept=".pdf,.jpg,.jpeg,.png"></label>
+            <label class="plein" for="d-mot">Lettre de motivation<input id="d-mot" type="file" name="doc_motivation" accept=".pdf,.doc,.docx"></label>
+            <label class="plein" for="d-cap">Attestation bancaire de capacité financière<input id="d-cap" type="file" name="doc_capacite_financiere" accept=".pdf,.jpg,.jpeg,.png"></label>
+          </div>
+          <p class="aide" style="margin-top:14px">PDF, JPG ou PNG (CV et lettre : PDF ou Word). Vous pourrez aussi les transmettre après l'entretien.</p>
+        </fieldset>
+
+        <fieldset data-pas="4" hidden>
+          <legend>Votre forfait</legend>
+          <div class="ligne"><span>Forfait ACTIONS Canada : inscription, hôtel, transport, visa</span><b class="num">5 000 USD</b></div>
+          <label class="choix" for="f-opt" style="margin-top:16px"><input type="checkbox" id="f-opt" name="option_accueil" value="Oui"><span><b>Services d'accueil · +1 000 USD</b><small>Traduction de documents, prise de rendez-vous, etc.</small></span></label>
+          <div class="total-ligne"><span>Total</span><b id="f-total">5 000 USD</b></div>
+          <p class="aide">Acompte de 50 % au plus tard le 5 décembre 2026, solde au plus tard le 30 janvier 2027.</p>
+        </fieldset>
+
+        <fieldset data-pas="5" hidden>
+          <legend>Engagement et signature</legend>
+          <div class="champs">
+            <label for="f-sig">Nom du signataire <span class="req">*</span><input id="f-sig" name="signataire" required></label>
+            <label for="f-qual">En qualité de <span class="req">*</span><input id="f-qual" name="qualite" required></label>
+            <label for="f-lieu">Fait à <span class="req">*</span><input id="f-lieu" name="fait_a" required></label>
+            <label for="f-date">Le<input id="f-date" type="date" name="date" readonly></label>
+          </div>
+          <label class="choix" for="f-eng" style="margin-top:18px"><input type="checkbox" id="f-eng" name="engagement" value="Accepté" required><span>Je confirme mon inscription au programme d'accompagnement d'ACTIONS Canada pour le PDAC 2027, je certifie l'exactitude des informations fournies et j'accepte les conditions et échéances financières du forfait. <span class="req">*</span></span></label>
+        </fieldset>
+
+        <p class="erreur" id="erreur" role="alert" hidden></p>
+        <div class="actions">
+          <button type="button" class="btn btn-gris" id="prec" hidden>← Retour</button>
+          <button type="submit" class="btn btn-mag" id="suiv" style="margin-left:auto">Continuer <span class="arr">→</span></button>
+        </div>
+      </form>
+
+      <div id="fin" hidden tabindex="-1">
+        <div class="ok-ico" aria-hidden="true">✓</div>
+        <h3 style="font-size:1.6rem" id="fin-titre">Inscription envoyée</h3>
+        <p class="aide" id="fin-txt" style="font-size:1rem;margin-top:10px"></p>
+        <table class="recap" id="recap"></table>
+        <div class="actions"><button type="button" class="btn btn-mag" id="copier">Copier le récapitulatif</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 ACTIONS Canada · Délégation sénégalaise au PDAC 2027</span>
+    <!-- À compléter : email, téléphone, adresse d'ACTIONS Canada -->
+    <span>ACTIONS Canada n'est pas affilié au PDAC · <a href="https://pdac.ca/convention-2027" target="_blank" rel="noopener">Site officiel</a></span>
+  </div>
+</footer>
+
+<script>
+// À CONFIGURER : adresse qui reçoit les inscriptions (ex. Formspree). Vide = récapitulatif à copier et à envoyer.
+const FORM_ENDPOINT='';
+// À CONFIGURER : email de contact d'ACTIONS Canada, affiché après l'inscription.
+const CONTACT_EMAIL='';
+
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const calme=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const fmt=n=>n.toLocaleString('fr-FR').replace(/ | /g,' ');
+
+// --- En-tête, menu, jauge de profondeur
+const entete=$('#entete'),burger=$('#burger'),menu=$('#menu');
+burger.onclick=()=>{const o=menu.classList.toggle('open');burger.setAttribute('aria-expanded',o)};
+menu.onclick=e=>{if(e.target.closest('a')){menu.classList.remove('open');burger.setAttribute('aria-expanded',false)}};
+const liens=$$('.menu a'),cibles=liens.map(a=>$(a.getAttribute('href')));
+function defile(){
+  const y=scrollY,max=document.documentElement.scrollHeight-innerHeight,p=max>0?y/max:0;
+  entete.classList.toggle('solid',y>40);
+  $('#jauge').style.height=(p*100)+'%';$('#barre').style.width=(p*100)+'%';
+  $('#prof').textContent='−'+String(Math.round(p*127)).padStart(3,'0')+' m';
+  let act=-1;cibles.forEach((c,i)=>{if(c&&c.getBoundingClientRect().top<innerHeight*.4)act=i});
+  liens.forEach((a,i)=>a.classList.toggle('on',i===act));
+}
+addEventListener('scroll',defile,{passive:true});defile();
+
+// --- Strates géologiques animées (hero)
+(()=>{
+  const c=$('#strates'),x=c.getContext('2d');let w,h,t=0;
+  const couches=[['#14224a',.42],['#1a2a57',.52],['#22305f',.62],['#3a1d5c',.72],['#6b0f5a',.82],['#a1006a',.9]];
+  function taille(){const r=c.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);w=r.width;h=r.height;c.width=w*d;c.height=h*d;x.setTransform(d,0,0,d,0,0)}
+  function dessine(){
+    x.clearRect(0,0,w,h);
+    couches.forEach(([coul,base],i)=>{
+      x.beginPath();x.moveTo(0,h);
+      for(let px=0;px<=w;px+=12){
+        const y=h*base+Math.sin(px*.004+t*(.25+i*.05)+i)*18*(1+i*.3)+Math.sin(px*.011-t*.4+i*2)*7;
+        x.lineTo(px,y);
+      }
+      x.lineTo(w,h);x.closePath();x.globalAlpha=.55;x.fillStyle=coul;x.fill();
+      x.globalAlpha=.35;x.strokeStyle='#ff5cae';x.lineWidth=1;x.stroke();
+    });
+    x.globalAlpha=1;
+  }
+  function boucle(){t+=.008;dessine();if(!calme)requestAnimationFrame(boucle)}
+  addEventListener('resize',()=>{taille();dessine()});taille();boucle();
+})();
+
+// --- Compte à rebours (ouverture 7 mars 2027, 9 h à Toronto)
+const ouverture=new Date('2027-03-07T09:00:00-05:00');
+function compte(){
+  const s=Math.max(0,Math.floor((ouverture-Date.now())/1000));
+  [['#cj',Math.floor(s/86400)],['#ch',Math.floor(s%86400/3600)],['#cm',Math.floor(s%3600/60)],['#cs',s%60]].forEach(([id,v])=>{
+    const el=$(id),txt=id==='#cj'?String(v):String(v).padStart(2,'0');
+    if(el.textContent!==txt){el.textContent=txt;if(!calme){el.classList.remove('tic');void el.offsetWidth;el.classList.add('tic')}}
+  });
+}
+compte();setInterval(compte,1000);
+
+// --- Bandeau : on double le contenu pour une boucle continue
+$('#rail').innerHTML+=$('#rail').innerHTML;
+
+// --- Apparitions au défilement (seulement sous la ligne de flottaison au chargement)
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vu');io.unobserve(e.target);e.target.dispatchEvent(new Event('vu'))}}),{threshold:.15});
+$$('h2,.lead,.chiffres,.empile,.av,.profil,.forfait>*,.etapes,.forage,.docs,.galerie,.faq details,.carte').forEach((el,i)=>{
+  if(!calme&&el.getBoundingClientRect().top>innerHeight){el.classList.add('attend');el.style.transitionDelay=(i%3)*.08+'s'}
+  io.observe(el);
+});
+
+// --- Chiffres qui défilent
+$$('[data-compte]').forEach(el=>{
+  const fin=+el.dataset.compte,suf=el.dataset.suffixe||'';
+  const go=()=>{if(calme)return;const t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/1600),v=Math.round(fin*(1-Math.pow(1-p,3)));el.textContent=fmt(v)+(p===1?suf:'');if(p<1)requestAnimationFrame(f)})(t0)};
+  el.closest('.chiffres').addEventListener('vu',go,{once:true});
+});
+
+// --- Forfait : carotte interactive
+function prixAnime(el,de,a){if(calme){el.textContent=fmt(a);return}const t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/600);el.textContent=fmt(Math.round(de+(a-de)*(1-Math.pow(1-p,3))));if(p<1)requestAnimationFrame(f)})(t0)}
+const optF=$('#opt-forfait'),optForm=$('#f-opt');
+function majForfait(on){
+  const de=on?5000:6000,a=on?6000:5000;
+  $('#seg-opt').classList.toggle('off',!on);prixAnime($('#prix'),de,a);
+  $('#moitie').textContent='2 × '+fmt(a/2);
+  optF.checked=on;optForm.checked=on;$('#f-total').textContent=fmt(a)+' USD';
+}
+optF.onchange=()=>majForfait(optF.checked);optForm.onchange=()=>majForfait(optForm.checked);
+
+// --- Processus : la ligne se trace
+$('#etapes').addEventListener('vu',()=>$('#etapes').style.setProperty('--progres','100%'));
+if(!$('#etapes').classList.contains('attend'))$('#etapes').style.setProperty('--progres','100%');
+
+// --- Log de forage : position d'aujourd'hui, à l'échelle
+(()=>{
+  const jalons=$$('.jalon'),jour=864e5,auj=new Date();auj.setHours(0,0,0,0);
+  jalons.forEach(j=>{const d=new Date(j.dataset.date+'T00:00:00'),n=Math.round((d-auj)/jour);j.querySelector('.reste').textContent=n>0?'J − '+n:n===0?"Aujourd'hui":'Échéance passée'});
+  const place=()=>{
+    const f=$('#forage'),fr=f.getBoundingClientRect(),pts=jalons.map(j=>({d:new Date(j.dataset.date+'T00:00:00'),y:j.getBoundingClientRect().top-fr.top+34}));
+    let y=pts[0].y*Math.max(0,1-(pts[0].d-auj)/(30*jour));   // avant la 1re échéance : approche depuis la surface
+    for(let i=0;i<pts.length-1;i++){if(auj>=pts[i].d&&auj<=pts[i+1].d){y=pts[i].y+(pts[i+1].y-pts[i].y)*((auj-pts[i].d)/(pts[i+1].d-pts[i].d))}}
+    if(auj>pts.at(-1).d)y=pts.at(-1).y;
+    f.style.setProperty('--auj-top',y+'px');f.style.setProperty('--auj',(y/fr.height*100)+'%');
+  };
+  place();addEventListener('resize',place);
+})();
+
+// --- Onglets documents
+const tabs=$$('[role=tab]');
+function onglet(t){tabs.forEach(x=>{const on=x===t;x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;$('#'+x.getAttribute('aria-controls')).hidden=!on});t.focus()}
+tabs.forEach((t,i)=>{t.onclick=()=>onglet(t);t.onkeydown=e=>{if(e.key==='ArrowRight')onglet(tabs[(i+1)%tabs.length]);if(e.key==='ArrowLeft')onglet(tabs[(i+tabs.length-1)%tabs.length])}});
+
+// --- Galerie : glisser, flèches, visionneuse
+(()=>{
+  const g=$('#galerie'),pas=()=>g.querySelector('figure').offsetWidth+16;
+  $('#g-next').onclick=()=>g.scrollBy({left:pas(),behavior:'smooth'});
+  $('#g-prev').onclick=()=>g.scrollBy({left:-pas(),behavior:'smooth'});
+  let x0=null,s0=0,bouge=false;
+  g.onpointerdown=e=>{if(e.pointerType!=='mouse')return;x0=e.clientX;s0=g.scrollLeft;bouge=false};
+  addEventListener('pointermove',e=>{if(x0===null)return;const dx=e.clientX-x0;if(Math.abs(dx)>4){bouge=true;g.classList.add('drag')}g.scrollLeft=s0-dx});
+  addEventListener('pointerup',()=>{x0=null;g.classList.remove('drag')});
+  const v=$('#visionneuse');
+  g.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||bouge){bouge=false;return}const img=b.querySelector('img');$('#v-img').src=img.src;$('#v-img').alt=img.alt;$('#v-txt').textContent=b.nextElementSibling.textContent;v.showModal()});
+  $('#fermer').onclick=()=>v.close();v.onclick=e=>{if(e.target===v)v.close()};
+})();
+
+// --- Formulaire en 5 étapes
+const form=$('#form'),pasEls=$$('fieldset[data-pas]'),err=$('#erreur');let pas=0;
+form.date.value=new Date().toISOString().slice(0,10);
+function docs(){const c=form.categorie.value;$$('[data-cat]').forEach(el=>{const on=el.dataset.cat===c;el.hidden=!on;el.querySelectorAll('input').forEach(i=>i.disabled=!on)})}
+$$('[name=categorie]').forEach(r=>r.onchange=docs);docs();
+function montre(n){
+  pasEls[pas].hidden=true;pas=n;pasEls[pas].hidden=false;err.hidden=true;
+  $('#avance').style.width=((pas+1)/pasEls.length*100)+'%';
+  $$('#passes li').forEach((li,i)=>{li.classList.toggle('on',i===pas);li.classList.toggle('fait',i<pas)});
+  $('#prec').hidden=pas===0;
+  $('#suiv').innerHTML=pas===pasEls.length-1?'Envoyer mon inscription <span class="arr">→</span>':'Continuer <span class="arr">→</span>';
+  $('#inscription').scrollIntoView({behavior:calme?'auto':'smooth',block:'start'});
+  pasEls[pas].querySelector('input:not([disabled]):not([readonly])')?.focus({preventScroll:true});
+}
+function valide(fs){
+  const bad=[...fs.querySelectorAll('input')].filter(el=>el.willValidate&&!el.checkValidity());
+  bad.forEach(el=>{el.classList.remove('invalid');void el.offsetWidth;el.classList.add('invalid')});
+  if(!bad.length)return true;
+  const b=bad[0];
+  err.textContent=b.type==='radio'?'Choisissez une catégorie pour continuer.'
+    :b.name==='expiration_passeport'&&b.value?"Votre passeport doit être valide au moins jusqu'au 10 septembre 2027."
+    :b.type==='email'&&b.value?"Cet email n'est pas valide. Vérifiez le format (nom@domaine.sn)."
+    :b.name==='engagement'?"Cochez la case d'engagement pour envoyer votre inscription."
+    :'Complétez les champs obligatoires signalés en rouge.';
+  err.hidden=false;b.focus();return false;
+}
+form.addEventListener('input',e=>e.target.classList.remove('invalid'));
+$('#prec').onclick=()=>montre(pas-1);
+
+const noms={categorie:'Catégorie',option_accueil:"Services d'accueil",engagement:'Engagement'};
+function recap(fd){
+  const t=$('#recap');t.innerHTML='';let texte='INSCRIPTION DÉLÉGATION PDAC 2027\n';
+  for(const [k,v] of fd){
+    const val=v instanceof File?v.name:v;if(!val)continue;
+    const lab=noms[k]||form.querySelector(`[name="${k}"]`).closest('label').childNodes[0].textContent.trim();
+    const tr=t.insertRow();tr.insertCell().textContent=lab;tr.insertCell().textContent=val;texte+=lab+' : '+val+'\n';
+  }
+  const tot=optForm.checked?'6 000 USD':'5 000 USD',tr=t.insertRow();tr.insertCell().textContent='Total du forfait';tr.insertCell().textContent=tot;
+  return texte+'Total du forfait : '+tot;
+}
+let texteRecap='';
+form.onsubmit=async e=>{
+  e.preventDefault();
+  if(!valide(pasEls[pas]))return;
+  if(pas<pasEls.length-1){montre(pas+1);return}
+  const fd=new FormData(form),btn=$('#suiv');
+  if(FORM_ENDPOINT){
+    btn.disabled=true;btn.textContent='Envoi en cours…';
+    try{const r=await fetch(FORM_ENDPOINT,{method:'POST',body:fd,headers:{Accept:'application/json'}});if(!r.ok)throw 0}
+    catch{err.textContent="L'envoi a échoué. Vérifiez votre connexion puis réessayez.";err.hidden=false;btn.disabled=false;btn.innerHTML='Envoyer mon inscription <span class="arr">→</span>';return}
+    $('#fin-txt').textContent="ACTIONS Canada vous contactera pour l'analyse de votre dossier et l'entretien de cadrage.";
+  }else{
+    $('#fin-titre').textContent='Votre fiche est prête';
+    $('#fin-txt').textContent='Copiez ce récapitulatif et envoyez-le à ACTIONS Canada avec vos documents'+(CONTACT_EMAIL?' à '+CONTACT_EMAIL:'')+', avant le 30 novembre 2026.';
+  }
+  texteRecap=recap(fd);
+  form.hidden=true;$('#avance').style.width='100%';$$('#passes li').forEach(li=>{li.classList.remove('on');li.classList.add('fait')});
+  $('#fin').hidden=false;$('#fin').focus();
+};
+$('#copier').onclick=async()=>{
+  const b=$('#copier');
+  try{await navigator.clipboard.writeText(texteRecap);b.textContent='Récapitulatif copié'}
+  catch{const r=document.createRange();r.selectNodeContents($('#recap'));getSelection().removeAllRanges();getSelection().addRange(r);b.textContent='Texte sélectionné : faites Ctrl+C'}
+};
+</script>
+
+</body>
+</html>
