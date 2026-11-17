@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Plaquette PDAC 2027 · ACTIONS Canada</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Plaquette A4, 4 pages. Même identité que le site : nuit + magenta PDAC, Archivo étendu, strates géologiques. */
+:root{
+  --nuit:#0a1530; --nuit-2:#14224a; --magenta:#e6007e; --filon:#ff5cae;
+  --sol:#f4f2f7; --papier:#fff; --encre:#121a33; --schiste:#5d6380; --trait:#dcd9e6; --brume:#aab2cf; --wa:#1fa855;
+  --display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --texte:"Instrument Sans","Segoe UI",Arial,sans-serif;
+  --mono:"JetBrains Mono",Consolas,monospace;
+}
+@page{size:A4;margin:0}
+*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+html,body{margin:0;background:#777}
+body{font:10pt/1.5 var(--texte);color:var(--encre)}
+.page{width:210mm;height:297mm;position:relative;overflow:hidden;background:var(--papier);margin:0 auto 8mm;page-break-after:always;break-after:page}
+.page:last-child{page-break-after:auto;break-after:auto;margin-bottom:0}
+@media print{html,body{background:none}.page{margin:0}}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1;text-wrap:balance}
+h2{font-size:26pt;font-weight:850;font-stretch:115%;letter-spacing:-.01em}
+h3{font-size:12pt;font-weight:750;font-stretch:105%;line-height:1.2}
+p{margin:0}
+.mono{font-family:var(--mono);font-size:7pt;letter-spacing:.1em;text-transform:uppercase}
+.passe{display:flex;align-items:center;gap:3mm;color:var(--magenta);margin-bottom:4mm}
+.passe::after{content:"";height:.3mm;width:14mm;background:currentColor;opacity:.5}
+.dark{background:var(--nuit);color:var(--papier)}
+.dark .passe{color:var(--filon)}
+.pad{padding:16mm 16mm}
+.hexa{width:9mm;height:10mm;background:var(--magenta);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);flex:none}
+.brand{display:flex;align-items:center;gap:3mm}
+.brand b{font:850 12pt var(--display);font-stretch:115%}
+.brand small{display:block;font:500 6.5pt var(--mono);letter-spacing:.14em;color:var(--brume)}
+.folio{position:absolute;bottom:9mm;left:16mm;right:16mm;display:flex;justify-content:space-between;color:var(--schiste)}
+.dark .folio{color:var(--brume)}
+.num{font-variant-numeric:tabular-nums}
+
+/* Page 1 : couverture */
+.couv canvas{position:absolute;inset:0;width:100%;height:100%}
+.couv .halo{position:absolute;inset:0;background:radial-gradient(ellipse at 85% 25%,rgba(230,0,126,.38),transparent 55%)}
+.couv .in{position:relative;height:100%;display:flex;flex-direction:column;padding:16mm}
+.couv .coord{color:var(--brume);display:flex;gap:6mm;margin-top:22mm}
+.couv .coord b{color:var(--filon)}
+.couv h1{font-size:54pt;font-weight:900;font-stretch:125%;letter-spacing:-.025em;line-height:.9;margin-top:8mm}
+.couv h1 .creux{display:block;color:transparent;-webkit-text-stroke:1.4pt var(--papier)}
+.couv h1 em{font-style:normal;color:var(--magenta)}
+.couv .sous{font-size:13pt;color:var(--brume);max-width:120mm;margin-top:9mm;line-height:1.45}
+.couv .sous b{color:var(--papier)}
+.couv .infos{display:grid;grid-template-columns:repeat(3,1fr);gap:.3mm;background:var(--nuit-2);border:.3mm solid var(--nuit-2);border-radius:2mm;overflow:hidden;margin-top:auto}
+.couv .infos div{background:rgba(10,21,48,.88);padding:5mm}
+.couv .infos small{display:block;color:var(--brume);margin-bottom:1.5mm}
+.couv .infos b{font:850 15pt var(--display);font-stretch:112%}
+.couv .infos b em{font-style:normal;color:var(--filon)}
+.couv .pays{display:flex;gap:2mm;margin-top:6mm;flex-wrap:wrap}
+.couv .pays span{border:.3mm solid var(--filon);color:var(--papier);border-radius:20mm;padding:1.6mm 4mm;font:700 7.5pt var(--mono);letter-spacing:.1em}
+.couv .bande{display:grid;grid-template-columns:repeat(4,1fr);gap:2mm;margin-top:6mm}
+.couv .bande img{width:100%;height:26mm;object-fit:cover;border-radius:1.5mm;display:block}
+
+/* Page 2 */
+.p2-haut{display:grid;grid-template-columns:1.15fr .85fr;gap:9mm;align-items:start}
+.lead{font-size:9.5pt;color:var(--schiste);margin-top:3mm}
+.lead+.lead{margin-top:3mm}
+.chiffres{display:grid;grid-template-columns:repeat(3,auto);justify-content:space-between;gap:4mm;margin-top:4mm;padding-top:4mm;border-top:.3mm solid var(--trait)}
+.chiffres b{display:block;white-space:nowrap;font:900 17pt/1 var(--display);font-stretch:118%;color:var(--nuit)}
+.chiffres span{font-size:8pt;color:var(--schiste)}
+.empile{position:relative;height:64mm}
+.empile img{position:absolute;object-fit:cover;border-radius:2mm}
+.empile .a{left:0;top:0;width:60mm;height:46mm}
+.empile .b{right:0;bottom:0;width:42mm;height:30mm;border:1.5mm solid var(--papier)}
+.empile .badge{position:absolute;left:3mm;bottom:3mm;background:var(--magenta);color:var(--papier);padding:3mm 4mm;border-radius:1.5mm}
+.empile .badge b{display:block;font:900 14pt var(--display);font-stretch:118%}
+.atouts{display:grid;grid-template-columns:repeat(3,1fr);gap:.3mm;background:var(--nuit-2);margin-top:4mm;border-radius:2mm;overflow:hidden}
+.atout{background:var(--nuit);padding:4.5mm 5mm}
+.atout svg{width:7mm;height:7mm;color:var(--filon);margin-bottom:2.5mm;display:block}
+.atout h3{color:var(--papier);margin-bottom:2mm}
+.atout p{color:var(--brume);font-size:8.5pt}
+.bloc-nuit{margin:7mm -16mm 0;padding:8mm 16mm 9mm}
+.profils{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin-top:4mm}
+.profil{border:.3mm solid var(--trait);border-radius:2mm;padding:4mm}
+.profil .mono{color:var(--magenta);margin-bottom:2mm}
+.profil h3{margin-bottom:3mm}
+.profil ul{list-style:none;margin:0;padding:0;display:grid;gap:1.6mm}
+.profil li{padding-left:4mm;position:relative;color:var(--schiste);font-size:8.5pt;line-height:1.35}
+.profil li::before{content:"";position:absolute;left:0;top:1.3mm;width:2mm;height:2.3mm;background:var(--magenta);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+
+/* Page 3 */
+.forfait{display:grid;grid-template-columns:.9fr 1.1fr;gap:9mm;margin-top:6mm;align-items:start}
+.prix{font:900 52pt/.9 var(--display);font-stretch:125%;letter-spacing:-.03em}
+.prix small{font:700 9pt var(--mono);letter-spacing:.1em;color:var(--filon);margin-left:2mm}
+.prix-sous{color:var(--brume);margin:3mm 0 6mm}
+.encadre{border:.3mm dashed var(--filon);border-radius:2mm;padding:4mm;margin-bottom:4mm}
+.encadre b{display:block;margin-bottom:1mm}
+.encadre span,.exclus{color:var(--brume);font-size:8.5pt}
+.exclus{display:grid;gap:1.5mm}
+.carotte{display:flex;flex-direction:column;gap:1.2mm;border-radius:8mm;padding:1.6mm;background:var(--nuit-2)}
+.seg{display:flex;justify-content:space-between;align-items:center;gap:4mm;padding:0 5mm;border-radius:6mm;color:var(--papier);position:relative;overflow:hidden}
+.seg::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,transparent 0 3.5mm,rgba(255,255,255,.06) 3.5mm 4mm)}
+.seg b{font-weight:600;font-size:9.5pt}
+.seg span{font:700 9pt var(--mono)}
+.seg.h15{height:20mm}.seg.h5{height:10mm}.seg.h10{height:14mm}
+.s1{background:#e6007e}.s2{background:#b8006a}.s3{background:#7d1b6e}.s4{background:#4a2a7a}
+.s5{background:repeating-linear-gradient(45deg,#14224a 0 2.5mm,#22325f 2.5mm 5mm);border:.3mm dashed var(--filon)}
+.carotte-pied{display:flex;justify-content:space-between;margin-top:3mm;color:var(--brume)}
+.carotte-pied b{color:var(--papier)}
+.blanc{background:var(--papier);color:var(--encre)}
+.etapes{display:grid;grid-template-columns:repeat(4,1fr);gap:5mm;margin-top:6mm;position:relative}
+.etapes::before{content:"";position:absolute;top:6.5mm;left:0;right:0;height:.5mm;background:var(--magenta)}
+.etape{position:relative}
+.etape .n{position:relative;width:12mm;height:13.5mm;display:grid;place-items:center;background:var(--magenta);color:var(--papier);font:900 11pt var(--display);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);margin-bottom:4mm}
+.etape h3{margin-bottom:1.5mm;font-size:10.5pt}
+.etape p{color:var(--schiste);font-size:8.5pt;line-height:1.4}
+.log{display:grid;grid-template-columns:repeat(4,1fr);gap:4mm;margin-top:6mm}
+.jalon{border-top:1.2mm solid var(--magenta);padding-top:3mm}
+.jalon.final{border-color:var(--nuit)}
+.jalon .mono{color:var(--magenta)}
+.jalon.final .mono{color:var(--nuit)}
+.jalon time{display:block;font:850 12.5pt var(--display);font-stretch:110%;margin:1mm 0 1.5mm}
+.jalon p{font-size:8.5pt;color:var(--schiste);line-height:1.4}
+
+/* Page 4 */
+.p4-haut{display:grid;grid-template-columns:1fr 1fr;gap:9mm}
+.docs{list-style:none;margin:4mm 0 0;padding:0;display:grid;gap:2mm}
+.docs li{display:flex;gap:3mm;background:var(--sol);border-radius:1.5mm;padding:2.6mm 3.5mm;font-size:8.5pt;line-height:1.35}
+.docs .k{font:700 7pt var(--mono);color:var(--magenta);padding-top:.4mm}
+.docs-titre{font:750 10.5pt var(--display);font-stretch:105%;margin-top:5mm}
+.faq{display:grid;gap:3mm;margin-top:4mm}
+.faq div{border-left:.8mm solid var(--magenta);padding-left:3.5mm}
+.faq b{display:block;font-size:9.5pt;margin-bottom:.8mm}
+.faq p{font-size:8.5pt;color:var(--schiste);line-height:1.4}
+.contact-bloc{position:absolute;left:0;right:0;bottom:0;padding:12mm 16mm 22mm}
+.contact-bloc h2{font-size:24pt}
+.contact-bloc .lead{color:var(--brume)}
+.contacts{display:grid;grid-template-columns:repeat(4,1fr);gap:3mm;margin-top:6mm}
+.contact{background:var(--nuit-2);border-radius:2mm;padding:4.5mm 4mm}
+.contact .mono{color:var(--filon)}
+.contact b{display:block;font:850 10.5pt var(--display);font-stretch:105%;margin:1.5mm 0 2.5mm;white-space:nowrap}
+.contact span{display:inline-flex;align-items:center;gap:1.2mm;font-size:7.5pt;color:var(--brume)}
+.contact span i{width:2.4mm;height:2.4mm;border-radius:50%;background:var(--wa);display:inline-block}
+.cta{display:flex;justify-content:space-between;align-items:center;gap:6mm;margin-top:7mm;padding:5mm 6mm;background:var(--magenta);border-radius:2mm}
+.cta b{font:850 13pt var(--display);font-stretch:112%}
+.cta span{font:700 8pt var(--mono);letter-spacing:.08em}
+.mention{position:absolute;bottom:9mm;left:16mm;right:16mm;color:var(--brume);font-size:7pt;display:flex;justify-content:space-between}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 : COUVERTURE -->
+<section class="page dark couv">
+  <canvas id="strates"></canvas>
+  <div class="halo"></div>
+  <div class="in">
+    <div class="brand"><span class="hexa"></span><span><b>ACTIONS Canada</b><small>DÉLÉGATION PDAC 2027</small></span></div>
+    <div class="coord mono"><span><b>43.64° N · 79.39° O</b></span><span>Metro Toronto Convention Centre</span></div>
+    <h1>L'Afrique<span class="creux">au cœur du</span><em>forum</em></h1>
+    <p class="sous">Rejoignez la délégation d'Afrique de l'Ouest au <b>PDAC 2027</b>, le plus grand congrès mondial de l'exploration et de l'investissement miniers. ACTIONS Canada s'occupe de tout : inscription, hôtel, transport et visa.</p>
+    <div class="infos">
+      <div><small class="mono">Dates</small><b>7 – 10 mars <em>2027</em></b></div>
+      <div><small class="mono">Lieu</small><b>Toronto, Canada</b></div>
+      <div><small class="mono">Forfait tout compris</small><b>5 000 <em>USD</em></b></div>
+    </div>
+    <div class="pays"><span>SÉNÉGAL</span><span>BÉNIN</span><span>TOGO</span><span>ET TOUTE L'AFRIQUE DE L'OUEST</span></div>
+    <div class="bande">
+      <img src="../docs/img/entree-pdac.jpg" alt="">
+      <img src="../docs/img/salle-exposition.jpg" alt="">
+      <img src="../docs/img/panel.jpg" alt="">
+      <img src="../docs/img/toronto.jpg" alt="">
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 2 : LE PDAC, ATOUTS, PROFILS -->
+<section class="page">
+  <div class="pad" style="padding-top:13mm">
+    <div class="p2-haut">
+      <div>
+        <p class="passe mono">Le congrès</p>
+        <h2 style="font-size:22pt">Là où se signent les accords miniers du monde</h2>
+        <p class="lead">Le PDAC (Prospectors &amp; Developers Association of Canada) réunit chaque année à Toronto investisseurs, décideurs publics, compagnies minières et experts du monde entier.</p>
+        <p class="lead">Conférences, salon d'exposition, rencontres B2B et B2G, réceptions : c'est la vitrine idéale pour présenter le potentiel minier de nos pays et nouer des partenariats durables.</p>
+        <div class="chiffres">
+          <div><b>4 jours</b><span>de congrès</span></div>
+          <div><b>25 000+</b><span>participants attendus</span></div>
+          <div><b>100+</b><span>pays représentés</span></div>
+        </div>
+      </div>
+      <div class="empile">
+        <img class="a" src="../docs/img/stand.jpg" alt="">
+        <img class="b" src="../docs/img/delegation.jpg" alt="">
+        <div class="badge mono">7 – 10 MARS<b>2027</b></div>
+      </div>
+    </div>
+
+    <div class="bloc-nuit dark">
+      <p class="passe mono">Pourquoi ACTIONS Canada</p>
+      <h2 style="font-size:20pt">Une délégation structurée, crédible, tournée vers les résultats</h2>
+      <div class="atouts">
+        <div class="atout"><svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="5" width="26" height="34" rx="3"/><circle cx="22" cy="18" r="6"/><path d="M14 31h16"/></svg><h3>Crédibilité consulaire</h3><p>Dossiers vérifiés et cohorte structurée, encadrés par notre avocate canadienne spécialisée en immigration.</p></div>
+        <div class="atout"><svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="2"><circle cx="14" cy="16" r="6"/><circle cx="30" cy="16" r="6"/><path d="M4 36c1-6 5-9 10-9s9 3 10 9M20 36c1-6 5-9 10-9s9 3 10 9"/></svg><h3>Réseautage B2B &amp; B2G</h3><p>Accès facilité aux événements VIP, panels et sessions de réseautage exclusifs à Toronto.</p></div>
+        <div class="atout"><svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 4l16 9v18l-16 9-16-9V13z"/><path d="M22 4v36M6 13l32 18M38 13L6 31"/></svg><h3>Visibilité</h3><p>Présence au sein du pavillon ou du catalogue de la délégation gérée par ACTIONS Canada.</p></div>
+      </div>
+    </div>
+
+    <p class="passe mono" style="margin-top:7mm">Participants éligibles</p>
+    <h2 style="font-size:20pt">Qui peut rejoindre la délégation ?</h2>
+    <div class="profils">
+      <div class="profil"><p class="mono">Catégorie A</p><h3>Institutions</h3><ul><li>Ministères des Mines et démembrements</li><li>Chambres de commerce, d'agriculture et d'artisanat</li><li>Chambres des mines</li></ul></div>
+      <div class="profil"><p class="mono">Catégorie B</p><h3>Compagnies</h3><ul><li>Sociétés minières : exploration, exploitation</li><li>Sous-traitants et fournisseurs de services</li><li>Cabinets de conseil juridique, financier, géologique</li></ul></div>
+      <div class="profil"><p class="mono">Catégorie C</p><h3>Experts &amp; investisseurs</h3><ul><li>Géologues, ingénieurs des mines, consultants</li><li>Investisseurs privés et apporteurs d'affaires</li><li>Chercheurs et universitaires du secteur extractif</li></ul></div>
+    </div>
+  </div>
+  <div class="folio mono"><span>ACTIONS Canada · PDAC 2027</span><span>02</span></div>
+</section>
+
+<!-- PAGE 3 : FORFAIT, PROCESSUS, CALENDRIER -->
+<section class="page dark" style="display:flex;flex-direction:column">
+  <div class="pad" style="padding-bottom:10mm">
+    <p class="passe mono">Forfait unique</p>
+    <h2>Tout le séjour, en un seul forfait</h2>
+    <div class="forfait">
+      <div>
+        <div class="prix num">5 000<small>USD</small></div>
+        <p class="prix-sous">par participant, payable en deux versements de 2 500 USD</p>
+        <div class="encadre"><b>Option : services d'accueil · +1 000 USD</b><span>Traduction de documents, prise de rendez-vous, etc.</span></div>
+        <div class="exclus">
+          <span>Non inclus : billet d'avion aller-retour vers Toronto, frais consulaires de l'ambassade du Canada.</span>
+          <span>ACTIONS Canada ne délivre pas de visa : nous encadrons votre démarche.</span>
+        </div>
+      </div>
+      <div>
+        <div class="carotte">
+          <div class="seg s1 h15"><b>Inscription officielle au PDAC</b><span>1 500</span></div>
+          <div class="seg s2 h15"><b>Hôtel 2-3 étoiles · 4 nuits</b><span>1 500</span></div>
+          <div class="seg s3 h5"><b>Navettes aéroport – hôtel</b><span>500</span></div>
+          <div class="seg s4 h15"><b>Avocate en immigration · visa</b><span>1 500</span></div>
+          <div class="seg s5 h10"><b>Services d'accueil (option)</b><span>+1 000</span></div>
+        </div>
+        <div class="carotte-pied mono"><span>Montants en USD</span><b>Total forfait 5 000</b></div>
+      </div>
+    </div>
+  </div>
+  <div class="blanc pad" style="padding-top:11mm;flex:1">
+    <p class="passe mono">Le parcours</p>
+    <h2 style="font-size:20pt">Quatre étapes, de chez vous à Toronto</h2>
+    <div class="etapes">
+      <div class="etape"><div class="n">1</div><h3>Inscription</h3><p>Fiche d'inscription en ligne ou papier, avec votre dossier.</p></div>
+      <div class="etape"><div class="n">2</div><h3>Analyse &amp; entretien</h3><p>Vérification des documents, puis entretien en personne ou en visio.</p></div>
+      <div class="etape"><div class="n">3</div><h3>Confirmation</h3><p>Lettre d'encadrement, facture, acompte de 50 %.</p></div>
+      <div class="etape"><div class="n">4</div><h3>Visa &amp; préparation</h3><p>Lettre d'invitation du PDAC, dossier visa, briefing de la délégation.</p></div>
+    </div>
+    <p class="passe mono" style="margin-top:10mm">Calendrier</p>
+    <h2 style="font-size:20pt">Des échéances à respecter</h2>
+    <div class="log">
+      <div class="jalon"><span class="mono">Clôture</span><time>30 nov. 2026</time><p>Date limite d'inscription et de dépôt des dossiers.</p></div>
+      <div class="jalon"><span class="mono">Acompte 50 %</span><time>5 déc. 2026</time><p>2 500 USD : inscription au PDAC, lettres d'invitation, hôtel.</p></div>
+      <div class="jalon"><span class="mono">Solde 50 %</span><time>30 janv. 2027</time><p>2 500 USD, dès l'obtention du visa.</p></div>
+      <div class="jalon final"><span class="mono">Congrès</span><time>7 – 10 mars 2027</time><p>PDAC 2027 au Metro Toronto Convention Centre.</p></div>
+    </div>
+  </div>
+  <div class="folio mono"><span>ACTIONS Canada · PDAC 2027</span><span>03</span></div>
+</section>
+
+<!-- PAGE 4 : DOSSIER, FAQ, CONTACTS -->
+<section class="page">
+  <div class="pad">
+    <div class="p4-haut">
+      <div>
+        <p class="passe mono">Votre dossier</p>
+        <h2 style="font-size:20pt">Documents requis</h2>
+        <p class="docs-titre">Compagnies &amp; institutions</p>
+        <ul class="docs">
+          <li><span class="k">01</span>Registre du commerce (RCCM) et identifiant fiscal (NINEA, IFU…)</li>
+          <li><span class="k">02</span>Preuve d'activités dans le secteur minier ou connexe</li>
+          <li><span class="k">03</span>Lettre de désignation officielle des délégués</li>
+          <li><span class="k">04</span>États financiers et attestation bancaire</li>
+        </ul>
+        <p class="docs-titre">Experts &amp; investisseurs</p>
+        <ul class="docs">
+          <li><span class="k">01</span>Curriculum vitae à jour</li>
+          <li><span class="k">02</span>Passeport valide au moins jusqu'au 10 septembre 2027</li>
+          <li><span class="k">03</span>Lettre de motivation (objectifs au PDAC 2027)</li>
+          <li><span class="k">04</span>Attestation bancaire de capacité financière</li>
+        </ul>
+      </div>
+      <div>
+        <p class="passe mono">Questions fréquentes</p>
+        <h2 style="font-size:20pt">Bon à savoir</h2>
+        <div class="faq">
+          <div><b>Le billet d'avion est-il inclus ?</b><p>Non. Le billet aller-retour et les frais consulaires restent à la charge du participant ou de son organisation.</p></div>
+          <div><b>Et en cas de refus de visa ?</b><p>Sur présentation de la lettre de refus : report au PDAC 2028 sans frais, ou remboursement des sommes versées, déduction faite des frais engagés et non récupérables.</p></div>
+          <div><b>Comment payer ?</b><p>Deux versements de 2 500 USD : au plus tard le 5 décembre 2026, puis le 30 janvier 2027.</p></div>
+          <div><b>Des documents en plus pour le visa ?</b><p>Oui : situation familiale, antécédents de voyages et de résidence. Nous vous guidons.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-bloc dark">
+    <p class="passe mono">Contact</p>
+    <h2>Réservez votre place dans la délégation</h2>
+    <p class="lead">Appelez-nous ou écrivez-nous sur WhatsApp. Nos équipes vous répondent dans quatre pays.</p>
+    <div class="contacts">
+      <div class="contact"><span class="mono">Sénégal</span><b class="num">+221 77 271 12 45</b><span><i></i>Appel · WhatsApp</span></div>
+      <div class="contact"><span class="mono">Bénin</span><b class="num">+229 01 97 57 30 13</b><span><i></i>Appel · WhatsApp</span></div>
+      <div class="contact"><span class="mono">Togo</span><b class="num">+228 72 63 11 11</b><span><i></i>Appel · WhatsApp</span></div>
+      <div class="contact"><span class="mono">Canada</span><b class="num">+1 (647) 857-1035</b><span><i></i>Appel · WhatsApp</span></div>
+    </div>
+    <div class="cta"><b>Inscriptions ouvertes jusqu'au 30 novembre 2026</b><span>PLACES LIMITÉES</span></div>
+  </div>
+  <div class="mention"><span>ACTIONS Canada n'est pas affilié au PDAC. PDAC est une marque de la Prospectors &amp; Developers Association of Canada.</span><span class="mono">04</span></div>
+</section>
+
+<script>
+// Strates de la couverture, dessinées une fois (version imprimable de l'animation du site)
+(()=>{
+  const c=document.getElementById('strates'),x=c.getContext('2d'),r=c.getBoundingClientRect(),d=3;
+  const w=r.width,h=r.height;c.width=w*d;c.height=h*d;x.scale(d,d);
+  const couches=[['#14224a',.50],['#1a2a57',.58],['#22305f',.66],['#3a1d5c',.74],['#6b0f5a',.82],['#a1006a',.90]];
+  couches.forEach(([coul,base],i)=>{
+    x.beginPath();x.moveTo(0,h);
+    for(let px=0;px<=w;px+=3){x.lineTo(px,h*base+Math.sin(px*.012+i*1.3)*9*(1+i*.3)+Math.sin(px*.033+i*2)*3.5)}
+    x.lineTo(w,h);x.closePath();x.globalAlpha=.6;x.fillStyle=coul;x.fill();
+    x.globalAlpha=.4;x.strokeStyle='#ff5cae';x.lineWidth=.5;x.stroke();
+  });
+})();
+</script>
+</body>
+</html>
