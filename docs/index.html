@@ -331,6 +331,18 @@ dialog button{position:absolute;top:10px;right:10px;width:40px;height:40px;borde
 @keyframes pop{from{transform:scale(0)}}
 @media (max-width:900px){.inscr{grid-template-columns:1fr}.inscr aside{position:static}.passes{grid-template-columns:repeat(5,1fr)}.passes li span{display:none}}
 
+/* Contact */
+.contacts{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:44px}
+.contact{display:flex;flex-direction:column;gap:6px;background:var(--papier);border:1px solid var(--trait);border-radius:var(--r);padding:24px;text-decoration:none;transition:transform .35s,border-color .35s,box-shadow .35s}
+.contact:hover{transform:translateY(-6px);border-color:var(--magenta);box-shadow:0 24px 50px -28px rgba(10,21,48,.4)}
+.contact .pays{color:var(--magenta)}
+.contact b{font:850 1.25rem var(--display);font-stretch:108%;font-variant-numeric:tabular-nums;white-space:nowrap}
+.contact span:last-child{color:var(--schiste);font-size:.88rem;margin-top:6px}
+@media (max-width:1000px){.contacts{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.contacts{grid-template-columns:1fr}}
+footer .tels{display:flex;flex-wrap:wrap;gap:6px 18px}
+footer .tels a{text-decoration:none;white-space:nowrap}
+
 /* Pied */
 footer{background:var(--nuit);color:var(--brume);padding-block:56px;border-top:1px solid var(--nuit-2);font-size:.9rem}
 footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
@@ -362,6 +374,7 @@ footer a{color:var(--papier)}
       <li><a href="#processus">Processus</a></li>
       <li><a href="#calendrier">Calendrier</a></li>
       <li><a href="#faq">FAQ</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
     <a class="btn btn-mag" href="#inscription">S'inscrire</a>
     <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
@@ -669,12 +682,25 @@ footer a{color:var(--papier)}
     </div>
   </div>
 </section>
+<section id="contact">
+  <div class="wrap">
+    <p class="passe mono">Contact</p>
+    <h2>Une question ? Appelez-nous</h2>
+    <p class="lead" style="margin-top:20px">Nos équipes vous répondent au Sénégal, au Bénin, au Togo et au Canada.</p>
+    <div class="contacts">
+      <a class="contact" href="tel:+221772711245"><span class="pays mono">Sénégal</span><b>+221 77 271 12 45</b><span>Appeler</span></a>
+      <a class="contact" href="tel:+2290197573013"><span class="pays mono">Bénin</span><b>+229 01 97 57 30 13</b><span>Appeler</span></a>
+      <a class="contact" href="tel:+22872631111"><span class="pays mono">Togo</span><b>+228 72 63 11 11</b><span>Appeler</span></a>
+      <a class="contact" href="tel:+16478571035"><span class="pays mono">Canada</span><b>+1 (647) 857-1035</b><span>Appeler</span></a>
+    </div>
+  </div>
+</section>
 </main>
 
 <footer>
   <div class="wrap">
     <span>© 2026 ACTIONS Canada · Délégation sénégalaise au PDAC 2027</span>
-    <!-- À compléter : email, téléphone, adresse d'ACTIONS Canada -->
+    <span class="tels"><a href="tel:+221772711245">Sénégal +221 77 271 12 45</a> <a href="tel:+2290197573013">Bénin +229 01 97 57 30 13</a> <a href="tel:+22872631111">Togo +228 72 63 11 11</a> <a href="tel:+16478571035">Canada +1 (647) 857-1035</a></span>
     <span>ACTIONS Canada n'est pas affilié au PDAC · <a href="https://pdac.ca/convention-2027" target="_blank" rel="noopener">Site officiel</a></span>
   </div>
 </footer>
@@ -742,7 +768,7 @@ $('#rail').innerHTML+=$('#rail').innerHTML;
 
 // --- Apparitions au défilement (seulement sous la ligne de flottaison au chargement)
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vu');io.unobserve(e.target);e.target.dispatchEvent(new Event('vu'))}}),{threshold:.15});
-$$('h2,.lead,.chiffres,.empile,.av,.profil,.forfait>*,.etapes,.forage,.docs,.galerie,.faq details,.carte').forEach((el,i)=>{
+$$('h2,.lead,.chiffres,.contact,.empile,.av,.profil,.forfait>*,.etapes,.forage,.docs,.galerie,.faq details,.carte').forEach((el,i)=>{
   if(!calme&&el.getBoundingClientRect().top>innerHeight){el.classList.add('attend');el.style.transitionDelay=(i%3)*.08+'s'}
   io.observe(el);
 });
