@@ -332,7 +332,9 @@ dialog button{position:absolute;top:10px;right:10px;width:40px;height:40px;borde
 @media (max-width:900px){.inscr{grid-template-columns:1fr}.inscr aside{position:static}.passes{grid-template-columns:repeat(5,1fr)}.passes li span{display:none}}
 
 /* Contact */
-.contacts{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:44px}
+.contacts{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;margin-top:44px}
+.contacts .contact{padding:22px 18px;min-width:0}
+.contacts .contact b{font-size:.98rem}
 .contact{display:flex;flex-direction:column;gap:6px;background:var(--papier);border:1px solid var(--trait);border-radius:var(--r);padding:24px;transition:transform .35s,border-color .35s,box-shadow .35s}
 .contact:hover{transform:translateY(-6px);border-color:var(--magenta);box-shadow:0 24px 50px -28px rgba(10,21,48,.4)}
 .contact .pays{color:var(--magenta)}
@@ -343,7 +345,8 @@ dialog button{position:absolute;top:10px;right:10px;width:40px;height:40px;borde
 .contact .act .wa{background:var(--wa);border-color:var(--wa);color:var(--papier)}
 .contact .act .wa:hover{background:var(--wa-dk);border-color:var(--wa-dk)}
 .contact .act svg{width:16px;height:16px;flex:none}
-@media (max-width:1000px){.contacts{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:1180px){.contacts{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:760px){.contacts{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:520px){.contacts{grid-template-columns:1fr}}
 footer .tels{display:flex;flex-wrap:wrap;gap:6px 18px}
 footer .tels a{text-decoration:none;white-space:nowrap}
@@ -691,11 +694,12 @@ footer a{color:var(--papier)}
   <div class="wrap">
     <p class="passe mono">Contact</p>
     <h2>Une question ? Appelez-nous ou écrivez-nous sur WhatsApp</h2>
-    <p class="lead" style="margin-top:20px">Nos équipes vous répondent au Sénégal, au Bénin, au Togo et au Canada.</p>
+    <p class="lead" style="margin-top:20px">Nos équipes vous répondent au Sénégal, au Bénin, au Togo, en France et au Canada.</p>
     <div class="contacts">
       <div class="contact"><span class="pays mono">Sénégal</span><b>+221 77 271 12 45</b><div class="act"><a href="tel:+221772711245"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2z"/></svg>Appeler</a><a class="wa" href="https://wa.me/221772711245?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20la%20d%C3%A9l%C3%A9gation%20au%20PDAC%202027." target="_blank" rel="noopener" aria-label="WhatsApp Sénégal"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s1 2.5 1.1 2.7c.1.2 1.9 2.9 4.6 4 1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3z"/></svg>WhatsApp</a></div></div>
       <div class="contact"><span class="pays mono">Bénin</span><b>+229 01 97 57 30 13</b><div class="act"><a href="tel:+2290197573013"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2z"/></svg>Appeler</a><a class="wa" href="https://wa.me/2290197573013?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20la%20d%C3%A9l%C3%A9gation%20au%20PDAC%202027." target="_blank" rel="noopener" aria-label="WhatsApp Bénin"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s1 2.5 1.1 2.7c.1.2 1.9 2.9 4.6 4 1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3z"/></svg>WhatsApp</a></div></div>
       <div class="contact"><span class="pays mono">Togo</span><b>+228 72 63 11 11</b><div class="act"><a href="tel:+22872631111"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2z"/></svg>Appeler</a><a class="wa" href="https://wa.me/22872631111?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20la%20d%C3%A9l%C3%A9gation%20au%20PDAC%202027." target="_blank" rel="noopener" aria-label="WhatsApp Togo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s1 2.5 1.1 2.7c.1.2 1.9 2.9 4.6 4 1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3z"/></svg>WhatsApp</a></div></div>
+      <div class="contact"><span class="pays mono">France</span><b>+33 6 84 58 44 23</b><div class="act"><a href="tel:+33684584423"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2z"/></svg>Appeler</a><a class="wa" href="https://wa.me/33684584423?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20la%20d%C3%A9l%C3%A9gation%20au%20PDAC%202027." target="_blank" rel="noopener" aria-label="WhatsApp France"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s1 2.5 1.1 2.7c.1.2 1.9 2.9 4.6 4 1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3z"/></svg>WhatsApp</a></div></div>
       <div class="contact"><span class="pays mono">Canada</span><b>+1 (647) 857-1035</b><div class="act"><a href="tel:+16478571035"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2z"/></svg>Appeler</a><a class="wa" href="https://wa.me/16478571035?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20la%20d%C3%A9l%C3%A9gation%20au%20PDAC%202027." target="_blank" rel="noopener" aria-label="WhatsApp Canada"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s1 2.5 1.1 2.7c.1.2 1.9 2.9 4.6 4 1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3z"/></svg>WhatsApp</a></div></div>
     </div>
   </div>
@@ -705,7 +709,7 @@ footer a{color:var(--papier)}
 <footer>
   <div class="wrap">
     <span>© 2026 ACTIONS Canada · Délégation sénégalaise au PDAC 2027</span>
-    <span class="tels"><a href="tel:+221772711245">Sénégal +221 77 271 12 45</a> <a href="tel:+2290197573013">Bénin +229 01 97 57 30 13</a> <a href="tel:+22872631111">Togo +228 72 63 11 11</a> <a href="tel:+16478571035">Canada +1 (647) 857-1035</a></span>
+    <span class="tels"><a href="tel:+221772711245">Sénégal +221 77 271 12 45</a> <a href="tel:+2290197573013">Bénin +229 01 97 57 30 13</a> <a href="tel:+22872631111">Togo +228 72 63 11 11</a> <a href="tel:+33684584423">France +33 6 84 58 44 23</a> <a href="tel:+16478571035">Canada +1 (647) 857-1035</a></span>
     <span>ACTIONS Canada n'est pas affilié au PDAC · <a href="https://pdac.ca/convention-2027" target="_blank" rel="noopener">Site officiel</a></span>
   </div>
 </footer>
