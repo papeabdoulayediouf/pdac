@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Formulaire d'inscription PDAC 2027</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Formulaire papier A4, 2 pages, à remplir à la main. Fond blanc pour l'impression, accents magenta PDAC. */
+:root{
+  --nuit:#0a1530; --magenta:#e6007e; --filon:#ff5cae; --encre:#121a33; --schiste:#5d6380;
+  --trait:#b9b5c8; --fond:#f4f2f7; --papier:#fff; --brume:#aab2cf;
+  --display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --texte:"Instrument Sans","Segoe UI",Arial,sans-serif;
+  --mono:"JetBrains Mono",Consolas,monospace;
+}
+@page{size:A4;margin:0}
+*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+html,body{margin:0;background:#777}
+body{font:9.5pt/1.45 var(--texte);color:var(--encre)}
+.page{width:210mm;height:297mm;position:relative;overflow:hidden;background:var(--papier);margin:0 auto 8mm;break-after:page;padding:0 15mm}
+.page:last-child{break-after:auto;margin-bottom:0}
+@media print{html,body{background:none}.page{margin:0}}
+h1,h2{font-family:var(--display);margin:0;line-height:1}
+.mono{font-family:var(--mono);font-size:6.8pt;letter-spacing:.1em;text-transform:uppercase}
+
+/* En-tête */
+.entete{background:var(--nuit);color:var(--papier);margin:0 -15mm;padding:9mm 15mm 8mm;display:flex;justify-content:space-between;align-items:flex-end;gap:8mm;position:relative;overflow:hidden}
+.entete::after{content:"";position:absolute;right:-14mm;top:-20mm;width:60mm;height:68mm;background:var(--magenta);opacity:.22;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+.brand{display:flex;align-items:center;gap:3mm;margin-bottom:5mm}
+.hexa{width:7mm;height:8mm;background:var(--magenta);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);flex:none}
+.brand b{font:850 10.5pt var(--display);font-stretch:115%}
+.brand small{display:block;font:500 6pt var(--mono);letter-spacing:.14em;color:var(--brume)}
+.entete h1{font-size:24pt;font-weight:900;font-stretch:120%;letter-spacing:-.01em}
+.entete h1 em{font-style:normal;color:var(--magenta)}
+.entete p{color:var(--brume);margin-top:2mm}
+.dossier{position:relative;z-index:1;border:.3mm solid var(--brume);border-radius:1.5mm;padding:3mm 4mm;min-width:46mm}
+.dossier .mono{color:var(--brume)}
+.dossier .ligne{margin-top:4mm}
+.dossier .ligne::after{border-color:var(--brume)}
+
+/* Sections */
+.section{margin-top:6mm}
+.titre{display:flex;align-items:center;gap:3mm;margin-bottom:3.5mm}
+.titre .n{width:7mm;height:8mm;background:var(--magenta);color:var(--papier);display:grid;place-items:center;font:900 9pt var(--display);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);flex:none}
+.titre h2{font-size:12.5pt;font-weight:850;font-stretch:110%}
+.titre::after{content:"";flex:1;height:.3mm;background:var(--trait)}
+.aide{color:var(--schiste);font-size:8pt}
+
+/* Champs à remplir */
+.champs{display:grid;grid-template-columns:1fr 1fr;column-gap:7mm;row-gap:4.2mm}
+.plein{grid-column:1/-1}
+.ligne{display:flex;align-items:flex-end;gap:2mm;font-weight:600;font-size:8.8pt;white-space:nowrap}
+.ligne::after{content:"";flex:1;border-bottom:.3mm solid var(--trait);height:5mm}
+.ligne small{font-weight:400;color:var(--schiste)}
+.cases-date{display:inline-flex;gap:1mm;margin-left:2mm}
+.cases-date i{width:5mm;height:6mm;border:.3mm solid var(--trait);border-radius:.6mm;display:inline-block}
+.cases-date b{align-self:flex-end;color:var(--schiste);font-weight:400}
+.ligne.date::after{display:none}
+
+/* Cases à cocher */
+.choix{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.carte{border:.3mm solid var(--trait);border-radius:1.5mm;padding:3.5mm 4mm;display:flex;gap:3mm}
+.box{width:4.4mm;height:4.4mm;border:.4mm solid var(--encre);border-radius:.6mm;flex:none;margin-top:.4mm}
+.carte b{display:block;font-size:9.5pt}
+.carte span{color:var(--schiste);font-size:8pt}
+.docs{display:grid;grid-template-columns:1fr 1fr;gap:5mm}
+.docs h3{font:750 9.5pt var(--display);font-stretch:105%;margin:0 0 2.5mm}
+.docs ul{list-style:none;margin:0;padding:0;display:grid;gap:2.2mm}
+.docs li{display:flex;gap:2.5mm;font-size:8.6pt;line-height:1.35}
+.note{background:var(--fond);border-radius:1.5mm;padding:3mm 4mm;margin-top:4mm;font-size:8.2pt;color:var(--schiste)}
+.note b{color:var(--encre)}
+
+/* Forfait */
+table{width:100%;border-collapse:collapse;font-size:9pt}
+th{font:700 6.8pt var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--schiste);text-align:left;padding:0 0 2mm;border-bottom:.4mm solid var(--encre)}
+td{padding:2.6mm 0;border-bottom:.3mm solid var(--trait);vertical-align:middle}
+td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td .box{display:inline-block;vertical-align:-1mm;margin-right:2.5mm}
+tr.sous td{font-weight:700}
+tr.total td{font:900 12pt var(--display);font-stretch:112%;border-bottom:0;border-top:.5mm solid var(--encre);padding-top:3mm}
+.cases-total{display:inline-flex;gap:3mm;font:600 9pt var(--texte)}
+.echeances{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm;margin-top:4mm}
+.ech{border-top:1mm solid var(--magenta);padding-top:2mm}
+.ech b{display:block;font:850 10.5pt var(--display);font-stretch:108%}
+.ech span{font-size:8pt;color:var(--schiste)}
+
+/* Engagement */
+.engagement{font-size:9pt;line-height:1.6;margin-bottom:4mm}
+.engagement u{display:inline-block;min-width:62mm;border-bottom:.3mm solid var(--trait);text-decoration:none;height:4mm;vertical-align:-1mm}
+.engagement u.court{min-width:44mm}
+.signatures{display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:4mm}
+.cadre{border:.3mm solid var(--trait);border-radius:1.5mm;height:30mm;padding:2.5mm 3mm;color:var(--schiste)}
+
+/* Pied */
+.retour{position:absolute;left:0;right:0;bottom:0;background:var(--nuit);color:var(--papier);padding:6mm 15mm 7mm}
+.retour h2{font-size:11pt;font-weight:850;font-stretch:110%}
+.retour p{color:var(--brume);font-size:8pt;margin-top:1mm}
+.tels{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5mm 4mm;margin-top:3.5mm}
+.tels div{font-size:8pt}
+.tels .mono{color:var(--filon);display:block;font-size:6pt}
+.tels b{font:800 8.6pt var(--display);font-stretch:102%;white-space:nowrap}
+.folio{position:absolute;bottom:6mm;right:15mm;color:var(--schiste)}
+.page:first-child .folio{bottom:7mm}
+.reserve{display:flex;justify-content:space-between;gap:4mm;margin-top:5mm;padding:3mm 4mm;border:.3mm dashed var(--trait);border-radius:1.5mm;font-size:8pt;color:var(--schiste)}
+.reserve span{flex:1;border-bottom:.3mm solid var(--trait);margin-left:2mm}
+.reserve div{display:flex;flex:1}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<section class="page">
+  <div class="entete">
+    <div>
+      <div class="brand"><span class="hexa"></span><span><b>ACTIONS Canada</b><small>DÉLÉGATION PDAC 2027</small></span></div>
+      <h1>Formulaire d'inscription<br><em>PDAC 2027</em> · Toronto</h1>
+      <p>Congrès du 7 au 10 mars 2027 · À remettre avant le 30 novembre 2026</p>
+    </div>
+    <div class="dossier">
+      <span class="mono">Réservé à ACTIONS Canada</span>
+      <div class="ligne">N° dossier</div>
+      <div class="ligne">Reçu le</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="titre"><span class="n">1</span><h2>Catégorie du candidat</h2></div>
+    <div class="choix">
+      <div class="carte"><span class="box"></span><div><b>Compagnie, institution ou personne morale</b><span>Société minière, sous-traitant, cabinet de conseil, institution publique</span></div></div>
+      <div class="carte"><span class="box"></span><div><b>Expert, investisseur ou personne physique</b><span>Géologue, consultant, chercheur, investisseur privé</span></div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="titre"><span class="n">2</span><h2>Identité et contact</h2></div>
+    <div class="champs">
+      <div class="ligne plein">Organisation / entreprise</div>
+      <div class="ligne">Nom</div>
+      <div class="ligne">Prénom(s)</div>
+      <div class="ligne plein">Fonction / titre</div>
+      <div class="ligne">N° de passeport</div>
+      <div class="ligne date">Date d'expiration
+        <span class="cases-date"><i></i><i></i><b>/</b><i></i><i></i><b>/</b><i></i><i></i><i></i><i></i></span></div>
+      <div class="ligne">Pays de résidence</div>
+      <div class="ligne">Nationalité</div>
+      <div class="ligne plein">Email professionnel</div>
+      <div class="ligne">Téléphone <small>(avec indicatif)</small></div>
+      <div class="ligne">WhatsApp</div>
+      <div class="ligne plein">Adresse</div>
+    </div>
+    <p class="aide" style="margin-top:2.5mm">Le passeport doit être valide au moins jusqu'au 10 septembre 2027 (6 mois après le PDAC 2027).</p>
+  </div>
+
+  <div class="section">
+    <div class="titre"><span class="n">3</span><h2>Documents à joindre</h2></div>
+    <div class="docs">
+      <div>
+        <h3>Compagnies &amp; institutions</h3>
+        <ul>
+          <li><span class="box"></span>Registre du commerce (RCCM) et identifiant fiscal (NINEA, IFU…)</li>
+          <li><span class="box"></span>Preuve d'activités dans le secteur minier ou connexe</li>
+          <li><span class="box"></span>Lettre de désignation officielle des délégués, signée par la direction</li>
+          <li><span class="box"></span>États financiers succincts et attestation bancaire</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Experts &amp; investisseurs</h3>
+        <ul>
+          <li><span class="box"></span>Curriculum vitae à jour (expertise minière ou financière)</li>
+          <li><span class="box"></span>Copie du passeport (page d'identité)</li>
+          <li><span class="box"></span>Lettre de motivation précisant vos objectifs au PDAC 2027</li>
+          <li><span class="box"></span>Attestation bancaire de capacité financière</li>
+        </ul>
+      </div>
+    </div>
+    <p class="note"><b>Accompagnement visa :</b> des documents supplémentaires vous seront demandés (situation familiale, antécédents de voyages et de résidence, etc.).</p>
+  </div>
+  <span class="folio mono">1 / 2</span>
+</section>
+
+<!-- PAGE 2 -->
+<section class="page" style="padding-top:12mm">
+  <div class="section" style="margin-top:0">
+    <div class="titre"><span class="n">4</span><h2>Forfait et modalités financières</h2></div>
+    <table>
+      <thead><tr><th>Prestation</th><th>Montant</th></tr></thead>
+      <tbody>
+        <tr><td>Inscription officielle au PDAC 2027 (badge conférences, exposition, espaces B2B)</td><td>1 500 USD</td></tr>
+        <tr><td>Hôtel 2-3 étoiles à Toronto, 4 nuits</td><td>1 500 USD</td></tr>
+        <tr><td>Navettes aéroport Pearson – hôtel – aéroport</td><td>500 USD</td></tr>
+        <tr><td>Accompagnement visa par une avocate en immigration</td><td>1 500 USD</td></tr>
+        <tr class="sous"><td>Forfait ACTIONS Canada</td><td>5 000 USD</td></tr>
+        <tr><td><span class="box"></span>Option : services d'accueil (traduction de documents, prise de rendez-vous, etc.)</td><td>+ 1 000 USD</td></tr>
+        <tr class="total"><td>Total à payer</td><td><span class="cases-total"><span><span class="box" style="display:inline-block;vertical-align:-1mm;margin-right:1.5mm"></span>5 000 USD</span><span><span class="box" style="display:inline-block;vertical-align:-1mm;margin-right:1.5mm"></span>6 000 USD</span></span></td></tr>
+      </tbody>
+    </table>
+    <div class="echeances">
+      <div class="ech"><span class="mono">Inscription</span><b>30 nov. 2026</b><span>Dépôt de la fiche et du dossier</span></div>
+      <div class="ech"><span class="mono">Acompte 50 %</span><b>5 déc. 2026</b><span>Valide la participation</span></div>
+      <div class="ech"><span class="mono">Solde 50 %</span><b>30 janv. 2027</b><span>Dès l'obtention du visa</span></div>
+    </div>
+    <p class="note"><b>Non inclus :</b> billet d'avion aller-retour vers Toronto et frais consulaires de l'ambassade du Canada. ACTIONS Canada ne délivre pas de visa : nous encadrons votre démarche.<br><b>Refus de visa :</b> sur présentation de la lettre de refus, report au PDAC 2028 sans frais, ou remboursement des sommes versées, déduction faite des frais engagés et non récupérables.</p>
+  </div>
+
+  <div class="section">
+    <div class="titre"><span class="n">5</span><h2>Engagement et signature</h2></div>
+    <p class="engagement">Je soussigné(e) <u></u>, agissant en qualité de <u class="court"></u>, confirme par la présente mon inscription (ou celle de mon organisation) au programme d'accompagnement d'ACTIONS Canada pour le PDAC 2027. Je certifie l'exactitude des informations fournies et j'accepte les conditions et les échéances financières du forfait.</p>
+    <div class="champs">
+      <div class="ligne">Fait à</div>
+      <div class="ligne date">Le <span class="cases-date"><i></i><i></i><b>/</b><i></i><i></i><b>/</b><i></i><i></i><i></i><i></i></span></div>
+    </div>
+    <div class="signatures">
+      <div class="cadre mono">Signature</div>
+      <div class="cadre mono">Cachet de l'organisation <span style="text-transform:none;letter-spacing:0">(personnes morales)</span></div>
+    </div>
+    <div class="reserve"><div>Réservé à ACTIONS Canada · Dossier validé le<span></span></div><div>Visa du comité<span></span></div></div>
+  </div>
+
+  <div class="retour">
+    <h2>Où retourner ce formulaire ?</h2>
+    <p>Remettez-le complété et signé, avec vos documents, à l'un de nos représentants. Contact par appel ou WhatsApp.</p>
+    <div class="tels">
+      <div><span class="mono">Sénégal</span><b>+221 77 271 12 45</b></div>
+      <div><span class="mono">Bénin</span><b>+229 01 97 57 30 13</b></div>
+      <div><span class="mono">Togo</span><b>+228 72 63 11 11</b></div>
+      <div><span class="mono">Burkina Faso</span><b>+226 70 23 58 08</b></div>
+      <div><span class="mono">RD Congo</span><b>+243 818 888 984</b></div>
+      <div><span class="mono">France</span><b>+33 6 84 58 44 23</b></div>
+      <div><span class="mono">Canada</span><b>+1 (647) 857-1035</b></div>
+    </div>
+  </div>
+</section>
+</body>
+</html>
